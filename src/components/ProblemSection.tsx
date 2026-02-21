@@ -1,4 +1,5 @@
 import urbanScene from "@/assets/urban-scene.jpg";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const stressors = [
   { title: "Air Pollution", description: "PM2.5 particles penetrate deep into skin, causing oxidative stress and premature aging." },
@@ -7,9 +8,11 @@ const stressors = [
 ];
 
 const ProblemSection = () => {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section className="py-24 md:py-32">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+    <section ref={ref} className="py-24 md:py-32">
+      <div className={`max-w-7xl mx-auto px-6 lg:px-12 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div>
             <p className="text-xs tracking-[0.3em] uppercase font-sans text-muted-foreground mb-4">
@@ -32,11 +35,7 @@ const ProblemSection = () => {
             </div>
           </div>
           <div className="relative">
-            <img
-              src={urbanScene}
-              alt="Urban city environment"
-              className="w-full aspect-square object-cover"
-            />
+            <img src={urbanScene} alt="Urban city environment" className="w-full aspect-square object-cover" />
             <div className="absolute inset-0 bg-primary/10" />
           </div>
         </div>

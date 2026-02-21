@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const EmailSignup = () => {
   const [email, setEmail] = useState("");
+  const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section className="py-24 md:py-32">
-      <div className="max-w-2xl mx-auto px-6 lg:px-12 text-center">
+    <section ref={ref} className="py-24 md:py-32">
+      <div className={`max-w-2xl mx-auto px-6 lg:px-12 text-center transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
         <p className="text-xs tracking-[0.3em] uppercase font-sans text-muted-foreground mb-4">
           Stay Connected
         </p>

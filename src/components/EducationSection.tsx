@@ -1,16 +1,15 @@
 import skinTexture from "@/assets/skin-texture.jpg";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const EducationSection = () => {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section id="science" className="py-24 md:py-32">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+    <section id="science" ref={ref} className="py-24 md:py-32">
+      <div className={`max-w-7xl mx-auto px-6 lg:px-12 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div className="relative order-2 md:order-1">
-            <img
-              src={skinTexture}
-              alt="Skin barrier close-up"
-              className="w-full aspect-[4/5] object-cover"
-            />
+            <img src={skinTexture} alt="Skin barrier close-up" className="w-full aspect-[4/5] object-cover" />
           </div>
           <div className="order-1 md:order-2">
             <p className="text-xs tracking-[0.3em] uppercase font-sans text-muted-foreground mb-4">

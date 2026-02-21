@@ -2,6 +2,7 @@ import product1 from "@/assets/product-1.jpg";
 import product2 from "@/assets/product-2.jpg";
 import product3 from "@/assets/product-3.jpg";
 import product4 from "@/assets/product-4.jpg";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const products = [
   { name: "Urban Shield Cleanser", price: "$48", category: "Cleanse", image: product1 },
@@ -11,10 +12,12 @@ const products = [
 ];
 
 const ProductShowcase = () => {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section id="products" className="py-24 md:py-32 bg-card">
+    <section id="products" ref={ref} className="py-24 md:py-32 bg-card">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="text-center mb-16">
+        <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <p className="text-xs tracking-[0.3em] uppercase font-sans text-muted-foreground mb-4">
             The Collection
           </p>
@@ -23,15 +26,18 @@ const ProductShowcase = () => {
           </h2>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {products.map((product) => (
-            <div key={product.name} className="group cursor-pointer">
+          {products.map((product, i) => (
+            <div
+              key={product.name}
+              className={`group cursor-pointer transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+              style={{ transitionDelay: isVisible ? `${i * 150}ms` : "0ms" }}
+            >
               <div className="relative overflow-hidden bg-muted mb-5">
                 <img
                   src={product.image}
                   alt={product.name}
                   className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-colors duration-500" />
               </div>
               <p className="text-xs tracking-[0.15em] uppercase font-sans text-muted-foreground mb-1">
                 {product.category}

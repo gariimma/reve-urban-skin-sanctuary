@@ -1,7 +1,11 @@
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+
 const BrandStory = () => {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section id="story" className="py-24 md:py-32 bg-primary text-primary-foreground">
-      <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
+    <section id="story" ref={ref} className="py-24 md:py-32 bg-primary text-primary-foreground">
+      <div className={`max-w-4xl mx-auto px-6 lg:px-12 text-center transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
         <p className="text-xs tracking-[0.3em] uppercase font-sans opacity-60 mb-6">
           Our Story
         </p>

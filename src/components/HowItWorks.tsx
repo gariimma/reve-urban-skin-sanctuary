@@ -1,3 +1,5 @@
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+
 const steps = [
   {
     number: "01",
@@ -17,10 +19,12 @@ const steps = [
 ];
 
 const HowItWorks = () => {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section className="py-24 md:py-32">
+    <section ref={ref} className="py-24 md:py-32">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="text-center mb-20">
+        <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <p className="text-xs tracking-[0.3em] uppercase font-sans text-muted-foreground mb-4">
             Your Ritual
           </p>
@@ -29,8 +33,12 @@ const HowItWorks = () => {
           </h2>
         </div>
         <div className="grid md:grid-cols-3 gap-12 md:gap-16">
-          {steps.map((step) => (
-            <div key={step.number} className="text-center">
+          {steps.map((step, i) => (
+            <div
+              key={step.number}
+              className={`text-center transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+              style={{ transitionDelay: isVisible ? `${i * 200}ms` : "0ms" }}
+            >
               <p className="font-serif text-6xl text-border mb-6">{step.number}</p>
               <h3 className="font-serif text-2xl text-foreground mb-4">{step.title}</h3>
               <p className="font-sans text-sm text-muted-foreground leading-relaxed max-w-xs mx-auto">

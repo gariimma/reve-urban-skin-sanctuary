@@ -1,3 +1,5 @@
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+
 const testimonials = [
   {
     quote: "After two weeks, the dullness I'd been living with for years just... vanished. My skin looks like it's actually breathing again.",
@@ -17,10 +19,12 @@ const testimonials = [
 ];
 
 const Testimonials = () => {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section className="py-24 md:py-32 bg-card">
+    <section ref={ref} className="py-24 md:py-32 bg-card">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="text-center mb-16">
+        <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <p className="text-xs tracking-[0.3em] uppercase font-sans text-muted-foreground mb-4">
             Voices
           </p>
@@ -29,8 +33,12 @@ const Testimonials = () => {
           </h2>
         </div>
         <div className="grid md:grid-cols-3 gap-10 md:gap-12">
-          {testimonials.map((t) => (
-            <div key={t.name} className="border-t border-border pt-8">
+          {testimonials.map((t, i) => (
+            <div
+              key={t.name}
+              className={`border-t border-border pt-8 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+              style={{ transitionDelay: isVisible ? `${i * 150}ms` : "0ms" }}
+            >
               <p className="font-serif text-lg text-foreground leading-relaxed mb-8 italic">
                 "{t.quote}"
               </p>

@@ -14,21 +14,21 @@ const Hero = () => {
             Urban Skin Recovery
           </p>
           <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light leading-[0.95] text-foreground mb-8">
-            Your skin
+            Built for skin
             <br />
-            <em className="font-light">deserves</em>
+            <em className="font-light">that lives</em>
             <br />
-            a revival.
+            in the city.
           </h1>
           <p className="font-sans text-base md:text-lg text-foreground/70 max-w-md mb-10 leading-relaxed">
-            Scientifically crafted skincare that repairs and protects urban-stressed skin from pollution and blue light damage.
+            Clinical-grade formulas that repair pollution damage, block blue light aging, and rebuild your skin barrier — in 3 steps.
           </p>
           <div className="flex flex-wrap gap-4">
             <Button variant="hero" size="lg" className="px-10 py-6">
-              Shop Collection
+              Shop the Ritual
             </Button>
             <Button variant="hero-outline" size="lg" className="px-10 py-6">
-              Learn More
+              See the Science
             </Button>
           </div>
         </div>

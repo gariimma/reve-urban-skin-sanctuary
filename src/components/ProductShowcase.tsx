@@ -1,56 +1,95 @@
-import product1 from "@/assets/product-1.jpg";
-import product2 from "@/assets/product-2.jpg";
-import product3 from "@/assets/product-3.jpg";
-import product4 from "@/assets/product-4.jpg";
-import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { motion } from "framer-motion";
 
 const products = [
-  { name: "Urban Shield Cleanser", price: "$48", category: "Cleanse", image: product1 },
-  { name: "Blue Light Defense Serum", price: "$72", category: "Treat", image: product2 },
-  { name: "Barrier Repair Cream", price: "$65", category: "Moisturize", image: product3 },
-  { name: "City Mist Hydrator", price: "$42", category: "Protect", image: product4 },
+  {
+    name: "Pollution Defense Serum",
+    description: "Shields skin from PM2.5 particles and environmental stress",
+    category: "Step 1: Protect",
+  },
+  {
+    name: "Blue Light Repair Cream",
+    description: "Reverses screen-induced aging and inflammation",
+    category: "Step 2: Repair",
+  },
+  {
+    name: "Barrier Recovery Night Oil",
+    description: "Rebuilds your skin's natural defense system overnight",
+    category: "Step 3: Restore",
+  },
 ];
 
-const ProductShowcase = () => {
-  const { ref, isVisible } = useScrollReveal();
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2, // Each card appears 0.2s after the previous
+    },
+  },
+};
 
+const cardVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 50 // Start 50px below
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  },
+};
+
+const ProductShowcase = () => {
   return (
-    <section id="products" ref={ref} className="py-24 md:py-32 bg-card">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <p className="text-xs tracking-[0.3em] uppercase font-sans text-muted-foreground mb-4">
-            The Collection
-          </p>
-          <h2 className="font-serif text-4xl md:text-5xl font-light text-foreground">
-            Built for city skin.
+    <section className="py-24 bg-background">
+      <div className="container mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light mb-6">
+            The 3-Step Ritual
           </h2>
-        </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {products.map((product, i) => (
-            <div
-              key={product.name}
-              className={`group cursor-pointer transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-              style={{ transitionDelay: isVisible ? `${i * 150}ms` : "0ms" }}
+          <p className="font-sans text-lg text-muted-foreground max-w-2xl mx-auto">
+            Scientifically sequenced to work together — not against your skin.
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto"
+        >
+          {products.map((product, index) => (
+            <motion.div
+              key={index}
+              variants={cardVariants}
+              className="group relative bg-card p-8 rounded-lg border border-border hover:border-primary transition-all duration-300 hover:shadow-xl"
             >
-              <div className="relative overflow-hidden bg-muted mb-5">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+              <div className="mb-4">
+                <span className="text-xs tracking-widest uppercase text-muted-foreground">
+                  {product.category}
+                </span>
               </div>
-              <p className="text-xs tracking-[0.15em] uppercase font-sans text-muted-foreground mb-1">
-                {product.category}
-              </p>
-              <h3 className="font-serif text-lg text-foreground mb-1">
+              <h3 className="font-serif text-2xl mb-4 group-hover:text-primary transition-colors">
                 {product.name}
               </h3>
-              <p className="font-sans text-sm text-muted-foreground">
-                {product.price}
+              <p className="text-muted-foreground leading-relaxed">
+                {product.description}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

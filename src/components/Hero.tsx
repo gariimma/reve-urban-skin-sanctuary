@@ -9,12 +9,9 @@ const Hero = () => {
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover object-bottom"
       >
-        <source
-        src="/hero-video.mp4"
-        type="video/mp4"
-        />
+        <source src="/hero-video.mp4" type="video/mp4" />
       </video>
 
       {/* Dark Overlay */}
@@ -53,7 +50,6 @@ const Hero = () => {
             in the city.
           </span>
         </h1>
-
 
         {/* Buttons */}
         <div

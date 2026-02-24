@@ -19,7 +19,6 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 text-center text-white">
-        {/* Badge */}
         <div
           className="inline-block mb-6 px-5 py-2 border border-white/30 backdrop-blur-sm opacity-0 animate-fade-in"
           style={{ animationDelay: "0.5s" }}
@@ -29,7 +28,6 @@ const Hero = () => {
           </span>
         </div>
 
-        {/* Headline */}
         <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light leading-tight mb-8">
           <span
             className="block opacity-0 animate-fade-in-up"
@@ -51,7 +49,6 @@ const Hero = () => {
           </span>
         </h1>
 
-        {/* Buttons */}
         <div
           className="flex flex-col sm:flex-row gap-4 justify-center opacity-0 animate-fade-in"
           style={{ animationDelay: "1.8s" }}

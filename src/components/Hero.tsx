@@ -21,13 +21,6 @@ const Hero = () => {
       <div className="absolute inset-0 bg-black/40" />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-6 text-center text-white">
-        <div
-          className="inline-block mb-6 px-5 py-2 border border-white/30 backdrop-blur-sm opacity-0 animate-fade-in"
-          style={{ animationDelay: "0.5s" }}
-        >
-        </div>
-
         <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light leading-tight mb-8">
           <span
             className="block opacity-0 animate-fade-in-up"

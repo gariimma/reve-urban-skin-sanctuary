@@ -113,14 +113,15 @@ const Navbar = () => {
           to="/"
           className="absolute left-1/2 -translate-x-1/2 flex items-center"
         >
-          <img
-            src={reveLogo}
-            alt="RÊVE"
-            className={`transition-all duration-500 ${
-              scrolled ? "h-10 md:h-12" : "h-14 md:h-16"
+          <span
+            className={`font-serif tracking-[0.3em] transition-all duration-500 ${
+              scrolled
+                ? "text-[#2B2B2B] text-2xl md:text-3xl"
+                : "text-white text-3xl md:text-4xl drop-shadow-lg"
             }`}
-            style={{ filter: scrolled ? "brightness(0.2)" : "drop-shadow(0 0 8px rgba(255,255,255,0.4)) brightness(1.2)" }}
-          />
+          >
+            RÊVE
+          </span>
         </Link>
 
         {/* Right Icons */}

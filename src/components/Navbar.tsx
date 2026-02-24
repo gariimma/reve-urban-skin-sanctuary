@@ -91,7 +91,7 @@ const Navbar = () => {
             >
               <a
                 href={link.href}
-                className={`group relative text-[13px] tracking-[0.1em] uppercase font-sans transition-opacity duration-250 ${
+                className={`group relative text-[14px] tracking-[0.12em] uppercase font-sans transition-opacity duration-250 ${
                   scrolled
                     ? "text-[#2B2B2B] hover:opacity-70"
                     : "text-white hover:opacity-70"
@@ -125,7 +125,7 @@ const Navbar = () => {
         </Link>
 
         {/* Right Icons */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-8">
           {[
             { icon: Search, label: "Search" },
             { icon: User, label: "Account" },
@@ -138,7 +138,7 @@ const Navbar = () => {
                 scrolled ? "text-[#2B2B2B]" : "text-white"
               }`}
             >
-              <Icon className="w-[18px] h-[18px]" strokeWidth={1.5} />
+              <Icon className="w-[22px] h-[22px]" strokeWidth={1.5} />
             </button>
           ))}
         </div>

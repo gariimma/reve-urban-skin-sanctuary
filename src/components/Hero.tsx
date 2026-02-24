@@ -64,23 +64,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div
-        className="absolute bottom-8 right-8 md:right-16 z-10 opacity-0 animate-fade-in cursor-pointer"
-        style={{ animationDelay: "2s" }}
-        onClick={() =>
-          document.getElementById("trust")?.scrollIntoView({ behavior: "smooth" })
-        }
-      >
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-white/40 text-[10px] tracking-[0.3em] uppercase font-sans [writing-mode:vertical-lr]">
-            Scroll
-          </span>
-          <div className="w-px h-10 bg-white/20 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1/2 bg-white/60 animate-bounce" />
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

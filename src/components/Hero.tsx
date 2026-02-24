@@ -1,8 +1,8 @@
 const Hero = () => {
   return (
     <div
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ backgroundColor: "#8B6540" }}
+      className="relative h-screen flex items-end overflow-hidden"
+      style={{ backgroundColor: "#1a1a1a" }}
     >
       {/* Background Video */}
       <video
@@ -10,73 +10,73 @@ const Hero = () => {
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover object-bottom"
+        className="absolute inset-0 w-full h-full object-cover"
       >
         <source src="/hero-video.mp4" type="video/mp4" />
       </video>
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/40" />
+      {/* Gradient overlay — cinematic bottom fade */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-6 text-center text-white">
-        <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light leading-tight mb-8">
+      {/* Content — bottom-aligned, left-justified */}
+      <div className="relative z-10 w-full px-8 md:px-16 pb-24 md:pb-32">
+        <p
+          className="font-sans text-[11px] tracking-[0.35em] uppercase text-white/50 mb-5 opacity-0 animate-fade-in"
+          style={{ animationDelay: "0.6s" }}
+        >
+          Urban Skin Recovery
+        </p>
+
+        <h1 className="font-serif text-[clamp(2.8rem,7vw,7rem)] font-light leading-[0.95] text-white mb-10 max-w-3xl">
           <span
             className="block opacity-0 animate-fade-in-up"
             style={{ animationDelay: "0.8s" }}
           >
-            Built for skin
+            Skin that
           </span>
           <span
-            className="block opacity-0 animate-fade-in-up"
+            className="block opacity-0 animate-fade-in-up italic"
             style={{ animationDelay: "1.0s" }}
           >
-            that lives
-          </span>
-          <span
-            className="block opacity-0 animate-fade-in-up"
-            style={{ animationDelay: "1.2s" }}
-          >
-            in the city.
+            breathes.
           </span>
         </h1>
 
         <div
-          className="flex justify-center opacity-0 animate-fade-in"
-          style={{ animationDelay: "1.8s" }}
+          className="flex items-center gap-6 opacity-0 animate-fade-in"
+          style={{ animationDelay: "1.5s" }}
         >
           <a
             href="#products"
-            className="group relative border border-white/60 px-12 py-4 text-sm tracking-[0.2em] uppercase font-sans text-white overflow-hidden transition-all duration-500"
+            className="group relative bg-white px-10 py-3.5 text-[11px] tracking-[0.25em] uppercase font-sans text-foreground overflow-hidden transition-all duration-500 hover:bg-white/90"
           >
-            <span className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
-            <span className="relative z-10 group-hover:text-[#8B6540] transition-colors duration-500">
-              Shop Now
-            </span>
+            Shop Now
+          </a>
+          <a
+            href="#story"
+            className="text-white/60 text-[11px] tracking-[0.25em] uppercase font-sans hover:text-white transition-colors duration-300"
+          >
+            Our Story →
           </a>
         </div>
       </div>
 
-      {/* Discover - scroll to next section */}
+      {/* Scroll indicator */}
       <div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 opacity-0 animate-fade-in flex flex-col items-center gap-3 cursor-pointer"
-        style={{ animationDelay: "2.2s" }}
+        className="absolute bottom-8 right-8 md:right-16 z-10 opacity-0 animate-fade-in cursor-pointer"
+        style={{ animationDelay: "2s" }}
         onClick={() =>
           document.getElementById("trust")?.scrollIntoView({ behavior: "smooth" })
         }
       >
-        <span className="text-white/60 text-xs tracking-[0.3em] uppercase font-sans">
-          Discover
-        </span>
-        <svg
-          className="w-5 h-5 text-white/60 animate-bounce"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={1.5}
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-        </svg>
+        <div className="flex flex-col items-center gap-2">
+          <span className="text-white/40 text-[10px] tracking-[0.3em] uppercase font-sans [writing-mode:vertical-lr]">
+            Scroll
+          </span>
+          <div className="w-px h-10 bg-white/20 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-white/60 animate-bounce" />
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -120,13 +120,14 @@ const Navbar = () => {
           >
             RÊVE
           </span>
-          <span
-            className={`text-[9px] tracking-[0.25em] uppercase font-sans transition-all duration-500 ${
-              scrolled ? "text-[#3A3A3A]/60 opacity-0 h-0" : "text-white/50 opacity-100"
-            }`}
-          >
-            Barrier Science
-          </span>
+<span
+  className={`text-[10px] tracking-[0.25em] uppercase font-sans transition-all duration-500 ${
+    scrolled ? "text-[#3A3A3A]/60 opacity-0 h-0" : "text-white/90 opacity-100"
+  }`}
+>
+  Barrier Science
+</span>
+
         </a>
 
         {/* Right Icons */}

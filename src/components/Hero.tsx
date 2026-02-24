@@ -2,7 +2,10 @@ import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{ backgroundColor: "#8B6540" }}
+    >
       {/* Background Video */}
       <video
         autoPlay
@@ -50,19 +53,18 @@ const Hero = () => {
         </h1>
 
         <div
-          className="flex flex-col sm:flex-row gap-4 justify-center opacity-0 animate-fade-in"
+          className="flex justify-center opacity-0 animate-fade-in"
           style={{ animationDelay: "1.8s" }}
         >
-          <Button size="lg" className="bg-white text-primary hover:bg-white/90">
-            Shop the Ritual
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="bg-white/90 text-primary border-white hover:bg-white"
+          <a
+            href="#products"
+            className="group relative border border-white/60 px-12 py-4 text-sm tracking-[0.2em] uppercase font-sans text-white overflow-hidden transition-all duration-500"
           >
-            See the Science
-          </Button>
+            <span className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+            <span className="relative z-10 group-hover:text-[#8B6540] transition-colors duration-500">
+              Shop Now
+            </span>
+          </a>
         </div>
       </div>
     </div>

@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import reveLogo from "@/assets/reve-logo.png";
+
 const Hero = () => {
   return (
     <div
@@ -46,12 +49,12 @@ const Hero = () => {
           className="flex items-center gap-6 opacity-0 animate-fade-in"
           style={{ animationDelay: "1.5s" }}
         >
-          <a
-            href="#products"
+          <Link
+            to="/shop"
             className="group relative bg-white px-10 py-3.5 text-[11px] tracking-[0.25em] uppercase font-sans text-foreground overflow-hidden transition-all duration-500 hover:bg-white/90"
           >
             Shop Now
-          </a>
+          </Link>
           <a
             href="#story"
             className="text-white/60 text-[11px] tracking-[0.25em] uppercase font-sans hover:text-white transition-colors duration-300"

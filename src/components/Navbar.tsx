@@ -1,5 +1,7 @@
 import { Search, User, ShoppingBag } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import reveLogo from "@/assets/reve-logo.png";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -14,7 +16,7 @@ const Navbar = () => {
   const navLinks = [
     {
       label: "Shop",
-      href: "#products",
+      href: "/shop",
       mega: {
         categories: [
           { title: "Cleansers", href: "#" },
@@ -107,28 +109,19 @@ const Navbar = () => {
         </div>
 
         {/* Center Logo */}
-        <a
-          href="/"
-          className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center"
+        <Link
+          to="/"
+          className="absolute left-1/2 -translate-x-1/2 flex items-center"
         >
-          <span
-            className={`font-serif tracking-[0.3em] transition-all duration-500 ${
-              scrolled
-                ? "text-[#2B2B2B] text-2xl md:text-3xl"
-                : "text-white text-3xl md:text-4xl"
+          <img
+            src={reveLogo}
+            alt="RÊVE"
+            className={`transition-all duration-500 ${
+              scrolled ? "h-7 md:h-8" : "h-9 md:h-10"
             }`}
-          >
-            RÊVE
-          </span>
-<span
-  className={`text-[10px] tracking-[0.25em] uppercase font-sans transition-all duration-500 ${
-    scrolled ? "text-[#3A3A3A]/60 opacity-0 h-0" : "text-white/90 opacity-100"
-  }`}
->
-  Barrier Science
-</span>
-
-        </a>
+            style={{ filter: scrolled ? "brightness(0.2)" : "brightness(1)" }}
+          />
+        </Link>
 
         {/* Right Icons */}
         <div className="flex items-center gap-6">

@@ -1,5 +1,4 @@
 import { Search, User, ShoppingBag } from "lucide-react";
-import reveLogo from "@/assets/reve-logo.png";
 
 const Navbar = () => {
   return (
@@ -21,13 +20,12 @@ const Navbar = () => {
           </a>
         </div>
 
-        {/* Center - Logo */}
-        <a href="/" className="absolute left-1/2 -translate-x-1/2">
-          <img
-            src={reveLogo}
-            alt="RÊVE"
-            className="h-16 md:h-14 w-auto"
-          />
+        {/* Center - Logo as Text */}
+        <a
+          href="/"
+          className="absolute left-1/2 -translate-x-1/2 font-serif text-3xl md:text-4xl tracking-[0.25em] text-[#B8860B]"
+        >
+          RÊVE
         </a>
 
         {/* Right - Icons */}

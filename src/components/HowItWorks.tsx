@@ -22,7 +22,7 @@ const HowItWorks = () => {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-24 md:py-32">
+    <section id="routine" ref={ref} className="py-24 md:py-32">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <p className="text-xs tracking-[0.3em] uppercase font-sans text-muted-foreground mb-4">

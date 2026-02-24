@@ -4,7 +4,7 @@ import reveLogo from "@/assets/reve-logo.png";
 const Hero = () => {
   return (
     <div
-      className="relative h-screen flex items-end overflow-hidden"
+      className="relative h-screen flex items-end overflow-hidden scrollbar-hide"
       style={{ backgroundColor: "#1a1a1a" }}
     >
       {/* Background Video */}

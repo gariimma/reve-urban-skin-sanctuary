@@ -67,6 +67,28 @@ const Hero = () => {
           </a>
         </div>
       </div>
+
+      {/* Discover - scroll to next section */}
+      <div
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 opacity-0 animate-fade-in flex flex-col items-center gap-3 cursor-pointer"
+        style={{ animationDelay: "2.2s" }}
+        onClick={() =>
+          document.getElementById("trust")?.scrollIntoView({ behavior: "smooth" })
+        }
+      >
+        <span className="text-white/60 text-xs tracking-[0.3em] uppercase font-sans">
+          Discover
+        </span>
+        <svg
+          className="w-5 h-5 text-white/60 animate-bounce"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
     </div>
   );
 };

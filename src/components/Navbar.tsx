@@ -74,7 +74,7 @@ const Navbar = () => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
         scrolled
           ? "bg-white/80 backdrop-blur-xl shadow-sm h-16"
-          : "bg-transparent h-20"
+          : "bg-transparent h-24"
       }`}
       onMouseLeave={() => setMegaMenu(null)}
     >
@@ -117,9 +117,9 @@ const Navbar = () => {
             src={reveLogo}
             alt="RÊVE"
             className={`transition-all duration-500 ${
-              scrolled ? "h-7 md:h-8" : "h-9 md:h-10"
+              scrolled ? "h-10 md:h-12" : "h-14 md:h-16"
             }`}
-            style={{ filter: scrolled ? "brightness(0.2)" : "brightness(1)" }}
+            style={{ filter: scrolled ? "brightness(0.2)" : "drop-shadow(0 0 8px rgba(255,255,255,0.4)) brightness(1.2)" }}
           />
         </Link>
 

@@ -26,9 +26,6 @@ const Hero = () => {
           className="inline-block mb-6 px-5 py-2 border border-white/30 backdrop-blur-sm opacity-0 animate-fade-in"
           style={{ animationDelay: "0.5s" }}
         >
-          <span className="text-xs tracking-[0.2em] uppercase font-sans">
-            Urban Skin Recovery
-          </span>
         </div>
 
         <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light leading-tight mb-8">

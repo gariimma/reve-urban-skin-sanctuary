@@ -54,14 +54,6 @@ const Hero = () => {
           </span>
         </h1>
 
-        {/* Subheadline */}
-        <p
-          className="font-sans text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed opacity-0 animate-fade-in"
-          style={{ animationDelay: "1.5s" }}
-        >
-          Clinical-grade formulas that repair pollution damage, block blue light
-          aging, and rebuild your skin barrier — in 3 steps.
-        </p>
 
         {/* Buttons */}
         <div

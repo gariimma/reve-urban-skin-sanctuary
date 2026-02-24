@@ -1,19 +1,14 @@
-import reveLogo from "@/assets/reve-logo.png";
-
 const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
-        {/* Logo */}
         <a href="/">
           <img
-            src={reveLogo}
+            src="/reve-logo.png"
             alt="RÊVE"
             className="h-6 md:h-7 w-auto brightness-0 invert"
           />
         </a>
-
-        {/* Nav Links */}
         <div className="hidden md:flex items-center gap-10 text-xs tracking-[0.15em] uppercase font-sans text-white/70">
           <a href="#products" className="hover:text-white transition-colors">
             Products
@@ -28,8 +23,6 @@ const Navbar = () => {
             Journal
           </a>
         </div>
-
-        {/* Shop Link */}
         <a
           href="#products"
           className="text-xs tracking-[0.15em] uppercase font-sans text-white hover:text-white/70 transition-colors"

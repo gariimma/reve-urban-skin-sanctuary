@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <div
-      className="relative h-screen md:h-[120vh] flex items-end overflow-hidden scrollbar-hide"
+      className="relative min-h-screen flex items-center overflow-hidden scrollbar-hide"
       style={{ backgroundColor: "#1a1a1a" }}
     >
       <video
@@ -16,10 +16,10 @@ const Hero = () => {
         <source src="/hero-video.mp4" type="video/mp4" />
       </video>
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-      <div className="relative z-10 w-full px-6 md:px-16 pb-16 md:pb-32">
-        <h1 className="font-serif text-[clamp(2.4rem,7vw,7rem)] font-light leading-[0.95] text-white mb-4 md:mb-6 max-w-3xl">
+      <div className="relative z-10 w-full px-6 md:px-16 pt-20 md:pt-0">
+        <h1 className="font-serif text-[clamp(2.8rem,8vw,6.5rem)] font-light leading-[0.95] text-white mb-6 md:mb-8 max-w-3xl">
           <span className="block opacity-0 animate-fade-in-up" style={{ animationDelay: "0.6s" }}>
             Skin that
           </span>
@@ -28,28 +28,22 @@ const Hero = () => {
           </span>
         </h1>
 
-        <p className="font-sans text-sm md:text-base text-white/70 mb-8 md:mb-10 opacity-0 animate-fade-in" style={{ animationDelay: "1.0s" }}>
+        <p 
+          className="font-sans text-base md:text-xl tracking-wide text-white/80 mb-10 md:mb-12 max-w-md opacity-0 animate-fade-in" 
+          style={{ animationDelay: "1.0s" }}
+        >
           Urban skincare for overnight repair.
         </p>
 
         <div className="opacity-0 animate-fade-in" style={{ animationDelay: "1.2s" }}>
           <Link
             to="/shop"
-            className="group relative overflow-hidden bg-white px-8 md:px-14 py-4 md:py-5 inline-flex items-center gap-3 md:gap-4"
+            className="group relative overflow-hidden bg-white px-8 md:px-10 py-3.5 md:py-4 inline-block"
           >
             <span className="absolute inset-0 bg-primary translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-            <span className="relative z-10 text-[12px] md:text-[13px] tracking-[0.25em] uppercase font-sans font-medium text-foreground group-hover:text-primary-foreground transition-colors duration-500">
+            <span className="relative z-10 text-[11px] md:text-[12px] tracking-[0.2em] uppercase font-sans font-medium text-foreground group-hover:text-primary-foreground transition-colors duration-500">
               Shop Now
             </span>
-            <svg
-              className="relative z-10 w-4 h-4 md:w-5 md:h-5 text-foreground group-hover:text-primary-foreground group-hover:translate-x-1 transition-all duration-500"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.5}
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-            </svg>
           </Link>
         </div>
       </div>

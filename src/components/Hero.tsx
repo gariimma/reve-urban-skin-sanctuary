@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <div
-      className="relative min-h-screen flex items-center overflow-hidden scrollbar-hide"
+      className="relative h-[85vh] md:h-[90vh] flex items-center overflow-hidden scrollbar-hide"
       style={{ backgroundColor: "#1a1a1a" }}
     >
       <video
@@ -18,7 +18,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-      <div className="relative z-10 w-full px-6 md:px-16 pt-20 md:pt-0">
+      <div className="relative z-10 w-full px-6 md:px-16">
         <h1 className="font-serif text-[clamp(2.8rem,8vw,6.5rem)] font-light leading-[0.95] text-white mb-6 md:mb-8 max-w-3xl">
           <span className="block opacity-0 animate-fade-in-up" style={{ animationDelay: "0.6s" }}>
             Skin that

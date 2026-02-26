@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <div
-      className="relative h-[120vh] flex items-end overflow-hidden scrollbar-hide"
+      className="relative h-screen md:h-[120vh] flex items-end overflow-hidden scrollbar-hide"
       style={{ backgroundColor: "#1a1a1a" }}
     >
-      {/* Background Video */}
       <video
         autoPlay
         loop
@@ -17,50 +16,36 @@ const Hero = () => {
         <source src="/hero-video.mp4" type="video/mp4" />
       </video>
 
-      {/* Gradient overlays */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-      {/* Content */}
-      <div className="relative z-10 w-full px-8 md:px-16 pb-24 md:pb-32">
-        <div
-          className="mb-6 opacity-0 animate-fade-in"
-          style={{ animationDelay: "0.6s" }}
-        >
-          <span className="inline-block text-[13px] tracking-[0.35em] uppercase font-sans font-medium text-white bg-white/15 backdrop-blur-sm px-6 py-3 border border-white/25">
+      <div className="relative z-10 w-full px-6 md:px-16 pb-16 md:pb-32">
+        <div className="mb-4 md:mb-6 opacity-0 animate-fade-in" style={{ animationDelay: "0.6s" }}>
+          <span className="inline-block text-[11px] md:text-[13px] tracking-[0.35em] uppercase font-sans font-medium text-white bg-white/15 backdrop-blur-sm px-4 md:px-6 py-2.5 md:py-3 border border-white/25">
             Urban Skin Recovery
           </span>
         </div>
 
-        <h1 className="font-serif text-[clamp(2.8rem,7vw,7rem)] font-light leading-[0.95] text-white mb-10 max-w-3xl">
-          <span
-            className="block opacity-0 animate-fade-in-up"
-            style={{ animationDelay: "0.8s" }}
-          >
+        <h1 className="font-serif text-[clamp(2.4rem,7vw,7rem)] font-light leading-[0.95] text-white mb-8 md:mb-10 max-w-3xl">
+          <span className="block opacity-0 animate-fade-in-up" style={{ animationDelay: "0.8s" }}>
             Skin that
           </span>
-          <span
-            className="block opacity-0 animate-fade-in-up italic"
-            style={{ animationDelay: "1.0s" }}
-          >
+          <span className="block opacity-0 animate-fade-in-up italic" style={{ animationDelay: "1.0s" }}>
             breathes.
           </span>
         </h1>
 
-        <div
-          className="flex items-center gap-8 opacity-0 animate-fade-in"
-          style={{ animationDelay: "1.5s" }}
-        >
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-8 opacity-0 animate-fade-in" style={{ animationDelay: "1.5s" }}>
           <Link
             to="/shop"
-            className="group relative overflow-hidden bg-white px-14 py-5 flex items-center gap-4"
+            className="group relative overflow-hidden bg-white px-8 md:px-14 py-4 md:py-5 flex items-center gap-3 md:gap-4"
           >
-            <span className="absolute inset-0 bg-[#8B6540] translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-            <span className="relative z-10 text-[13px] tracking-[0.25em] uppercase font-sans font-medium text-[#2B2B2B] group-hover:text-white transition-colors duration-500">
+            <span className="absolute inset-0 bg-primary translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+            <span className="relative z-10 text-[12px] md:text-[13px] tracking-[0.25em] uppercase font-sans font-medium text-foreground group-hover:text-primary-foreground transition-colors duration-500">
               Explore the Ritual
             </span>
             <svg
-              className="relative z-10 w-5 h-5 text-[#2B2B2B] group-hover:text-white group-hover:translate-x-1 transition-all duration-500"
+              className="relative z-10 w-4 h-4 md:w-5 md:h-5 text-foreground group-hover:text-primary-foreground group-hover:translate-x-1 transition-all duration-500"
               fill="none"
               stroke="currentColor"
               strokeWidth={1.5}

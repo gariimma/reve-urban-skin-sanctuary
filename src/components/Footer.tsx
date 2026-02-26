@@ -1,10 +1,12 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
-    <footer className="border-t border-border py-16">
+    <footer className="border-t border-border py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
-          <div>
-            <p className="font-serif text-2xl tracking-[0.2em] text-foreground mb-6">RÊVE</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 mb-12 md:mb-16">
+          <div className="col-span-2 md:col-span-1">
+            <Link to="/" className="font-serif text-2xl tracking-[0.2em] text-foreground mb-4 block">RÊVE</Link>
             <p className="font-sans text-xs text-muted-foreground leading-relaxed">
               Urban skin recovery, scientifically crafted for modern life.
             </p>
@@ -12,19 +14,18 @@ const Footer = () => {
           <div>
             <p className="font-sans text-xs tracking-[0.15em] uppercase text-foreground mb-4">Shop</p>
             <div className="space-y-2.5">
-              <a href="#" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">All Products</a>
-              <a href="#" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">The Routine Set</a>
-              <a href="#" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Refills</a>
-              <a href="#" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Gift Cards</a>
+              <Link to="/shop" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">All Products</Link>
+              <Link to="/product/pollution-defense-serum" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Defense Serum</Link>
+              <Link to="/product/blue-light-repair-cream" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Repair Cream</Link>
+              <Link to="/product/barrier-recovery-oil" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Recovery Oil</Link>
             </div>
           </div>
           <div>
             <p className="font-sans text-xs tracking-[0.15em] uppercase text-foreground mb-4">Learn</p>
             <div className="space-y-2.5">
-              <a href="#" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Our Story</a>
-              <a href="#" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Ingredients</a>
-              <a href="#" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Journal</a>
-              <a href="#" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Clinical Studies</a>
+              <a href="#story" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Our Story</a>
+              <a href="#science" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">The Science</a>
+              <a href="#routine" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Your Ritual</a>
             </div>
           </div>
           <div>
@@ -33,7 +34,6 @@ const Footer = () => {
               <a href="#" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">FAQ</a>
               <a href="#" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Shipping & Returns</a>
               <a href="#" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Contact</a>
-              <a href="#" className="block font-sans text-xs text-muted-foreground hover:text-foreground transition-colors">Sustainability</a>
             </div>
           </div>
         </div>

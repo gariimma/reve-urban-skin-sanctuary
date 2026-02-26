@@ -1,11 +1,10 @@
-import { Search, User, ShoppingBag } from "lucide-react";
+import { Search, User, ShoppingBag, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import reveLogo from "@/assets/reve-logo.png";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [megaMenu, setMegaMenu] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80);
@@ -14,177 +13,133 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    {
-      label: "Shop",
-      href: "/shop",
-      mega: {
-        categories: [
-          { title: "Cleansers", href: "#" },
-          { title: "Serums", href: "#" },
-          { title: "Moisturizers", href: "#" },
-          { title: "Treatments", href: "#" },
-          { title: "Shop All", href: "#products" },
-        ],
-        featured: {
-          label: "The Barrier Collection",
-          sublabel: "Clinically tested. Dermatologist approved.",
-          image: "/hero-video.mp4",
-        },
-      },
-    },
-    {
-      label: "Routine",
-      href: "#routine",
-      mega: {
-        categories: [
-          { title: "Morning Ritual", href: "#" },
-          { title: "Night Repair", href: "#" },
-          { title: "Barrier Recovery", href: "#" },
-          { title: "Sensitive Skin", href: "#" },
-        ],
-        featured: {
-          label: "Find Your Ritual",
-          sublabel: "Personalized regimens for urban skin.",
-          image: "",
-        },
-      },
-    },
-    {
-      label: "Science",
-      href: "#science",
-      mega: {
-        categories: [
-          { title: "Ingredients", href: "#" },
-          { title: "Clinical Testing", href: "#" },
-          { title: "Skin Barrier", href: "#" },
-          { title: "Our Formulation", href: "#" },
-        ],
-        featured: {
-          label: "The Research",
-          sublabel: "Seoul science meets French elegance.",
-          image: "",
-        },
-      },
-    },
-    { label: "Journal", href: "#journal" },
+    { label: "Shop", href: "/shop" },
+    { label: "Routine", href: "#routine" },
+    { label: "Science", href: "#science" },
+    { label: "Story", href: "#story" },
   ];
 
+  const handleNavClick = (href: string) => {
+    setMobileOpen(false);
+    if (href.startsWith("#")) {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
-        scrolled
-          ? "bg-white/80 backdrop-blur-xl shadow-sm h-16"
-          : "bg-transparent h-24"
-      }`}
-      onMouseLeave={() => setMegaMenu(null)}
-    >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-full">
-        {/* Left Nav Links */}
-        <div className="hidden md:flex items-center gap-10">
-          {navLinks.map((link) => (
-            <div
-              key={link.label}
-              className="relative"
-              onMouseEnter={() =>
-                link.mega ? setMegaMenu(link.label) : setMegaMenu(null)
-              }
-            >
-              <a
-                href={link.href}
-                className={`group relative text-[14px] tracking-[0.12em] uppercase font-sans transition-opacity duration-250 ${
-                  scrolled
-                    ? "text-[#2B2B2B] hover:opacity-70"
-                    : "text-white hover:opacity-70"
-                }`}
-              >
-                {link.label}
-                <span
-                  className={`absolute -bottom-1 left-0 h-px w-0 group-hover:w-full transition-all duration-300 ease-out ${
-                    scrolled ? "bg-[#2B2B2B]" : "bg-white"
-                  }`}
-                />
-              </a>
-            </div>
-          ))}
-        </div>
-
-        {/* Center Logo */}
-        <Link
-          to="/"
-          className="absolute left-1/2 -translate-x-1/2 flex items-center"
-        >
-          <span
-            className={`font-serif tracking-[0.3em] transition-all duration-500 ${
-              scrolled
-                ? "text-[#2B2B2B] text-2xl md:text-3xl"
-                : "text-white text-3xl md:text-4xl drop-shadow-lg"
-            }`}
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
+          scrolled
+            ? "bg-background/80 backdrop-blur-xl shadow-sm h-14 md:h-16"
+            : "bg-transparent h-16 md:h-24"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 flex items-center justify-between h-full">
+          {/* Mobile menu toggle */}
+          <button
+            className={`md:hidden transition-colors ${scrolled ? "text-foreground" : "text-white"}`}
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Menu"
           >
-            RÊVE
-          </span>
-        </Link>
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
 
-        {/* Right Icons */}
-        <div className="flex items-center gap-8">
-          {[
-            { icon: Search, label: "Search" },
-            { icon: User, label: "Account" },
-            { icon: ShoppingBag, label: "Cart" },
-          ].map(({ icon: Icon, label }) => (
-            <button
-              key={label}
-              aria-label={label}
-              className={`transition-opacity duration-250 hover:opacity-60 ${
-                scrolled ? "text-[#2B2B2B]" : "text-white"
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-8 lg:gap-10">
+            {navLinks.map((link) =>
+              link.href.startsWith("/") ? (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  className={`text-[13px] tracking-[0.12em] uppercase font-sans transition-opacity hover:opacity-70 ${
+                    scrolled ? "text-foreground" : "text-white"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
+                  className={`text-[13px] tracking-[0.12em] uppercase font-sans transition-opacity hover:opacity-70 ${
+                    scrolled ? "text-foreground" : "text-white"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              )
+            )}
+          </div>
+
+          {/* Logo */}
+          <Link to="/" className="absolute left-1/2 -translate-x-1/2">
+            <span
+              className={`font-serif tracking-[0.3em] transition-all duration-500 ${
+                scrolled
+                  ? "text-foreground text-xl md:text-2xl lg:text-3xl"
+                  : "text-white text-2xl md:text-3xl lg:text-4xl drop-shadow-lg"
               }`}
             >
-              <Icon className="w-[22px] h-[22px]" strokeWidth={1.5} />
-            </button>
-          ))}
+              RÊVE
+            </span>
+          </Link>
+
+          {/* Icons */}
+          <div className="flex items-center gap-5 md:gap-8">
+            {[
+              { icon: Search, label: "Search" },
+              { icon: User, label: "Account", hideOnMobile: true },
+              { icon: ShoppingBag, label: "Cart" },
+            ].map(({ icon: Icon, label, hideOnMobile }) => (
+              <button
+                key={label}
+                aria-label={label}
+                className={`transition-opacity hover:opacity-60 ${
+                  scrolled ? "text-foreground" : "text-white"
+                } ${hideOnMobile ? "hidden md:block" : ""}`}
+              >
+                <Icon className="w-5 h-5 md:w-[22px] md:h-[22px]" strokeWidth={1.5} />
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      </nav>
 
-      {/* Mega Menu */}
-      {megaMenu && (
-        <div
-          className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-lg"
-          onMouseEnter={() => setMegaMenu(megaMenu)}
-          onMouseLeave={() => setMegaMenu(null)}
-        >
-          <div className="max-w-7xl mx-auto px-6 lg:px-12 py-10 flex gap-16">
-            {/* Categories */}
-            <div className="flex flex-col gap-4">
-              {navLinks
-                .find((l) => l.label === megaMenu)
-                ?.mega?.categories.map((cat) => (
-                  <a
-                    key={cat.title}
-                    href={cat.href}
-                    className="group flex items-center gap-2 text-[#2B2B2B]"
+      {/* Mobile drawer */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-40 md:hidden">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} />
+          <div className="absolute top-0 left-0 w-72 h-full bg-background shadow-xl pt-20 px-8">
+            <div className="flex flex-col gap-6">
+              {navLinks.map((link) =>
+                link.href.startsWith("/") ? (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="font-serif text-2xl text-foreground"
                   >
-                    <span className="text-sm tracking-[0.06em] font-sans group-hover:opacity-60 transition-opacity duration-250">
-                      {cat.title}
-                    </span>
-                    <span className="w-0 group-hover:w-4 h-px bg-[#2B2B2B] transition-all duration-300" />
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
+                    className="font-serif text-2xl text-foreground"
+                  >
+                    {link.label}
                   </a>
-                ))}
+                )
+              )}
             </div>
-
-            {/* Featured */}
-            {navLinks.find((l) => l.label === megaMenu)?.mega?.featured && (
-              <div className="ml-auto flex flex-col justify-center max-w-xs">
-                <p className="font-serif text-xl text-[#2B2B2B] mb-2">
-                  {navLinks.find((l) => l.label === megaMenu)?.mega?.featured.label}
-                </p>
-                <p className="text-[13px] text-[#3A3A3A]/70 font-sans leading-relaxed">
-                  {navLinks.find((l) => l.label === megaMenu)?.mega?.featured.sublabel}
-                </p>
-              </div>
-            )}
           </div>
         </div>
       )}
-    </nav>
+    </>
   );
 };
 

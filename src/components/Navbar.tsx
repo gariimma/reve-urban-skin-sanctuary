@@ -1,4 +1,4 @@
-import { Search, User, ShoppingBag, Menu, X } from "lucide-react";
+import { ShoppingBag, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -87,24 +87,15 @@ const Navbar = () => {
             </span>
           </Link>
 
-          {/* Icons */}
-          <div className="flex items-center gap-5 md:gap-8">
-            {[
-              { icon: Search, label: "Search" },
-              { icon: User, label: "Account", hideOnMobile: true },
-              { icon: ShoppingBag, label: "Cart" },
-            ].map(({ icon: Icon, label, hideOnMobile }) => (
-              <button
-                key={label}
-                aria-label={label}
-                className={`transition-opacity hover:opacity-60 ${
-                  scrolled ? "text-foreground" : "text-white"
-                } ${hideOnMobile ? "hidden md:block" : ""}`}
-              >
-                <Icon className="w-5 h-5 md:w-[22px] md:h-[22px]" strokeWidth={1.5} />
-              </button>
-            ))}
-          </div>
+          {/* Cart icon only */}
+          <button
+            aria-label="Cart"
+            className={`transition-opacity hover:opacity-60 ${
+              scrolled ? "text-foreground" : "text-white"
+            }`}
+          >
+            <ShoppingBag className="w-5 h-5 md:w-[22px] md:h-[22px]" strokeWidth={1.5} />
+          </button>
         </div>
       </nav>
 

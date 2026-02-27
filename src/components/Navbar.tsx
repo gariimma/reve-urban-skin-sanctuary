@@ -11,6 +11,9 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const isHome = location.pathname === "/";
+  const showDark = scrolled || !isHome;
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", handleScroll);
@@ -61,7 +64,7 @@ const Navbar = () => {
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
-          scrolled
+          showDark
             ? "bg-background/80 backdrop-blur-xl shadow-sm h-14 md:h-16"
             : "bg-transparent h-16 md:h-24"
         }`}
@@ -70,7 +73,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 flex items-center justify-between h-full">
 
           <button
-            className={`md:hidden transition-colors ${scrolled ? "text-foreground" : "text-white"}`}
+            className={`md:hidden transition-colors ${showDark ? "text-foreground" : "text-white"}`}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={mobileOpen}
@@ -86,7 +89,7 @@ const Navbar = () => {
                   key={link.label}
                   to={link.href}
                   className={`text-[13px] tracking-[0.12em] uppercase font-sans transition-opacity hover:opacity-70 ${
-                    scrolled ? "text-foreground" : "text-white"
+                    showDark ? "text-foreground" : "text-white"
                   }`}
                 >
                   {link.label}
@@ -100,7 +103,7 @@ const Navbar = () => {
                     handleNavClick(link.href);
                   }}
                   className={`text-[13px] tracking-[0.12em] uppercase font-sans transition-opacity hover:opacity-70 ${
-                    scrolled ? "text-foreground" : "text-white"
+                    showDark ? "text-foreground" : "text-white"
                   }`}
                 >
                   {link.label}
@@ -116,7 +119,7 @@ const Navbar = () => {
           >
             <span
               className={`font-serif tracking-[0.3em] transition-all duration-500 group-hover:opacity-70 ${
-                scrolled
+                showDark
                   ? "text-foreground text-xl md:text-2xl lg:text-3xl"
                   : "text-white text-2xl md:text-3xl lg:text-4xl drop-shadow-lg"
               }`}
@@ -133,7 +136,7 @@ const Navbar = () => {
                 : ", empty"
             }`}
             className={`relative transition-opacity hover:opacity-60 ${
-              scrolled ? "text-foreground" : "text-white"
+              showDark ? "text-foreground" : "text-white"
             }`}
           >
             <ShoppingBag className="w-5 h-5 md:w-[22px] md:h-[22px]" strokeWidth={1.5} />

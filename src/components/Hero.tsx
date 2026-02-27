@@ -1,33 +1,22 @@
 import { products } from "@/data/products";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { useRef, useEffect } from "react";
+
 
 const Hero = () => {
   const featured = products[0];
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    video.play().catch(() => {
-      // Autoplay blocked — poster image will show instead
-    });
-  }, []);
-
   return (
     <section
       className="relative h-[90vh] md:h-screen flex items-center overflow-hidden"
       style={{ backgroundColor: "#1a1a1a" }}
     >
       <video
-        ref={videoRef}
+
         autoPlay
         loop
         muted
         playsInline
-        preload="auto"
+
         className="absolute inset-0 w-full h-full object-cover"
         poster="/hero-poster.jpg"
       >

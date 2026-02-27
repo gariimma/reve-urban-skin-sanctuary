@@ -1,10 +1,12 @@
 import { ShoppingBag, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { openCart, totalItems } = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80);
@@ -37,16 +39,14 @@ const Navbar = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 flex items-center justify-between h-full">
-          {/* Mobile menu toggle */}
           <button
             className={`md:hidden transition-colors ${scrolled ? "text-foreground" : "text-white"}`}
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Menu"
+            aria-label="Toggle navigation menu"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
-          {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-8 lg:gap-10">
             {navLinks.map((link) =>
               link.href.startsWith("/") ? (
@@ -74,7 +74,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Logo */}
           <Link to="/" className="absolute left-1/2 -translate-x-1/2">
             <span
               className={`font-serif tracking-[0.3em] transition-all duration-500 ${
@@ -87,14 +86,19 @@ const Navbar = () => {
             </span>
           </Link>
 
-          {/* Cart icon only */}
           <button
-            aria-label="Cart"
-            className={`transition-opacity hover:opacity-60 ${
+            onClick={openCart}
+            aria-label={`Cart with ${totalItems} items`}
+            className={`relative transition-opacity hover:opacity-60 ${
               scrolled ? "text-foreground" : "text-white"
             }`}
           >
             <ShoppingBag className="w-5 h-5 md:w-[22px] md:h-[22px]" strokeWidth={1.5} />
+            {totalItems > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[9px] font-sans font-medium flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
           </button>
         </div>
       </nav>
@@ -107,21 +111,11 @@ const Navbar = () => {
             <div className="flex flex-col gap-6">
               {navLinks.map((link) =>
                 link.href.startsWith("/") ? (
-                  <Link
-                    key={link.label}
-                    to={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="font-serif text-2xl text-foreground"
-                  >
+                  <Link key={link.label} to={link.href} onClick={() => setMobileOpen(false)} className="font-serif text-2xl text-foreground">
                     {link.label}
                   </Link>
                 ) : (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
-                    className="font-serif text-2xl text-foreground"
-                  >
+                  <a key={link.label} href={link.href} onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }} className="font-serif text-2xl text-foreground">
                     {link.label}
                   </a>
                 )

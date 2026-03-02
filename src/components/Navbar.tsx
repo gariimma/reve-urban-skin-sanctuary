@@ -25,18 +25,12 @@ const Navbar = () => {
   }, [location.pathname]);
 
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
   const navLinks = [
-    { label: "Shop", href: "/shop" },
+    { label: "Products", href: "#products" },
     { label: "Routine", href: "#routine" },
     { label: "Science", href: "#science" },
     { label: "Story", href: "#story" },
@@ -44,13 +38,11 @@ const Navbar = () => {
 
   const handleNavClick = (href: string) => {
     setMobileOpen(false);
-
     if (href.startsWith("#")) {
       const scrollToSection = () => {
         const el = document.querySelector(href);
         if (el) el.scrollIntoView({ behavior: "smooth" });
       };
-
       if (location.pathname !== "/") {
         navigate("/");
         setTimeout(scrollToSection, 150);
@@ -71,73 +63,44 @@ const Navbar = () => {
         aria-label="Main navigation"
       >
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-12 flex items-center justify-between h-full">
-
           <button
             className={`md:hidden transition-colors ${showDark ? "text-foreground" : "text-white"}`}
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
-            aria-controls="mobile-nav-drawer"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
           <div className="hidden md:flex items-center gap-8 lg:gap-10">
-            {navLinks.map((link) =>
-              link.href.startsWith("/") ? (
-                <Link
-                  key={link.label}
-                  to={link.href}
-                  className={`text-[13px] tracking-[0.12em] uppercase font-sans transition-opacity hover:opacity-70 ${
-                    showDark ? "text-foreground" : "text-white"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ) : (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(link.href);
-                  }}
-                  className={`text-[13px] tracking-[0.12em] uppercase font-sans transition-opacity hover:opacity-70 ${
-                    showDark ? "text-foreground" : "text-white"
-                  }`}
-                >
-                  {link.label}
-                </a>
-              )
-            )}
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
+                className={`text-[13px] tracking-[0.12em] uppercase font-sans transition-opacity hover:opacity-70 ${
+                  showDark ? "text-foreground" : "text-white"
+                }`}
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
 
-          <Link
-            to="/"
-            className="absolute left-1/2 -translate-x-1/2 z-10 group"
-            aria-label="RÊVE — Go to homepage"
-          >
-            <span
-              className={`font-serif tracking-[0.3em] transition-all duration-500 group-hover:opacity-70 ${
-                showDark
-                  ? "text-foreground text-xl md:text-2xl lg:text-3xl"
-                  : "text-white text-2xl md:text-3xl lg:text-4xl drop-shadow-lg"
-              }`}
-            >
+          <Link to="/" className="absolute left-1/2 -translate-x-1/2 z-10 group" aria-label="RÊVE — Go to homepage">
+            <span className={`font-serif tracking-[0.3em] transition-all duration-500 group-hover:opacity-70 ${
+              showDark
+                ? "text-foreground text-xl md:text-2xl lg:text-3xl"
+                : "text-white text-2xl md:text-3xl lg:text-4xl drop-shadow-lg"
+            }`}>
               RÊVE
             </span>
           </Link>
 
           <button
             onClick={openCart}
-            aria-label={`Shopping bag${
-              totalItems > 0
-                ? `, ${totalItems} item${totalItems === 1 ? "" : "s"}`
-                : ", empty"
-            }`}
-            className={`relative transition-opacity hover:opacity-60 ${
-              showDark ? "text-foreground" : "text-white"
-            }`}
+            aria-label={`Shopping bag${totalItems > 0 ? `, ${totalItems} item${totalItems === 1 ? "" : "s"}` : ", empty"}`}
+            className={`relative transition-opacity hover:opacity-60 ${showDark ? "text-foreground" : "text-white"}`}
           >
             <ShoppingBag className="w-5 h-5 md:w-[22px] md:h-[22px]" strokeWidth={1.5} />
             {totalItems > 0 && (
@@ -159,11 +122,8 @@ const Navbar = () => {
               transition={{ duration: 0.3 }}
               className="absolute inset-0 bg-black/50"
               onClick={() => setMobileOpen(false)}
-              aria-hidden="true"
             />
-
             <motion.div
-              id="mobile-nav-drawer"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
@@ -173,30 +133,16 @@ const Navbar = () => {
               aria-label="Navigation menu"
             >
               <div className="flex flex-col gap-6">
-                {navLinks.map((link) =>
-                  link.href.startsWith("/") ? (
-                    <Link
-                      key={link.label}
-                      to={link.href}
-                      onClick={() => setMobileOpen(false)}
-                      className="font-serif text-2xl text-foreground hover:opacity-70 transition-opacity"
-                    >
-                      {link.label}
-                    </Link>
-                  ) : (
-                    <a
-                      key={link.label}
-                      href={link.href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleNavClick(link.href);
-                      }}
-                      className="font-serif text-2xl text-foreground hover:opacity-70 transition-opacity"
-                    >
-                      {link.label}
-                    </a>
-                  )
-                )}
+                {navLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
+                    className="font-serif text-2xl text-foreground hover:opacity-70 transition-opacity"
+                  >
+                    {link.label}
+                  </a>
+                ))}
               </div>
             </motion.div>
           </div>

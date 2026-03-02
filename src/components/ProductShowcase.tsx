@@ -19,7 +19,7 @@ const ProductShowcase = () => {
 
   return (
     <section id="products" className="py-20 md:py-32 bg-background">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -34,7 +34,7 @@ const ProductShowcase = () => {
             The 3-Step Ritual
           </h2>
           <p className="font-sans text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
-            Scientifically sequenced to work together — not against your skin.
+            Scientifically sequenced to work together — starting from ${Math.min(...products.map(p => p.price))}.
           </p>
         </motion.div>
 
@@ -43,7 +43,7 @@ const ProductShowcase = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8"
         >
           {products.map((product) => (
             <motion.div key={product.slug} variants={cardVariants} className="group">
@@ -54,7 +54,7 @@ const ProductShowcase = () => {
                 <div className="relative aspect-[4/5] overflow-hidden bg-muted">
                   <img
                     src={product.image}
-                    alt={product.name}
+                    alt={`${product.name} — RÊVE ${product.category} urban skincare`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     loading="lazy"
                   />
@@ -65,24 +65,36 @@ const ProductShowcase = () => {
                   </div>
                 </div>
                 <div className="p-5 md:p-6">
-                  <h3 className="font-serif text-xl md:text-2xl text-foreground mb-2 group-hover:text-primary transition-colors">
+                  <h3 className="font-serif text-xl md:text-2xl text-foreground mb-1 group-hover:text-primary transition-colors">
                     {product.name}
                   </h3>
+                  <p className="font-sans text-xs text-muted-foreground mb-3">
+                    {product.tagline}
+                  </p>
                   <p className="font-sans text-xs md:text-sm text-muted-foreground leading-relaxed mb-4 line-clamp-2">
                     {product.description}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="font-sans text-sm font-medium text-foreground">${product.price}</span>
+                    <span className="font-sans text-sm font-medium text-foreground">
+                      From ${product.sizes[0].price}
+                    </span>
                     <span className="flex items-center gap-1 text-[11px] tracking-[0.15em] uppercase font-sans text-muted-foreground group-hover:text-primary transition-colors">
-                      View Details
+                      View
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-300" />
                     </span>
                   </div>
                 </div>
               </Link>
               <button
-                onClick={() => addToCart({ slug: product.slug, name: product.name, price: product.price, image: product.image })}
-                className="w-full mt-2 py-3 border border-border text-[11px] tracking-[0.15em] uppercase font-sans text-foreground hover:bg-foreground hover:text-background transition-all duration-300"
+                onClick={() =>
+                  addToCart({
+                    slug: product.slug,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                  })
+                }
+                className="w-full mt-2 py-3 border border-border text-[11px] tracking-[0.15em] uppercase font-sans text-foreground hover:bg-foreground hover:text-background transition-all duration-300 active:scale-[0.98]"
               >
                 Add to Bag — ${product.price}
               </button>

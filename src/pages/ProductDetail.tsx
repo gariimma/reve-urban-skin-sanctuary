@@ -1,16 +1,40 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Check, ShieldCheck, Leaf, FlaskConical, Star, Minus, Plus } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  ShieldCheck,
+  Leaf,
+  FlaskConical,
+  Star,
+  Minus,
+  Plus,
+  Truck,
+  RotateCcw,
+  Award,
+} from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { products, getProduct } from "@/data/products";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const trustBadges = [
   { icon: ShieldCheck, label: "Dermatologist Tested" },
-  { icon: Leaf, label: "100% Vegan" },
+  { icon: Leaf, label: "Vegan & Cruelty-Free" },
   { icon: FlaskConical, label: "Clinically Proven" },
+  { icon: Award, label: "Clean Beauty Certified" },
+];
+
+const guarantees = [
+  { icon: Truck, text: "Free shipping over $80" },
+  { icon: RotateCcw, text: "30-day satisfaction guarantee" },
 ];
 
 const ProductDetail = () => {
@@ -18,29 +42,33 @@ const ProductDetail = () => {
   const product = slug ? getProduct(slug) : null;
   const { addToCart } = useCart();
   const [qty, setQty] = useState(1);
+  const [sizeIdx, setSizeIdx] = useState(1); // default Regular
   const [activeTab, setActiveTab] = useState<"how" | "ingredients" | "science">("how");
 
   if (!product) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <h1 className="font-serif text-3xl mb-4 text-foreground">Product not found</h1>
-          <Link to="/shop" className="text-sm text-primary underline font-sans">Back to shop</Link>
-        </div>
-      </div>
-    );
+    return <Navigate to="/" replace />;
   }
 
-  const relatedProducts = products.filter(p => p.slug !== product.slug);
+  const selectedSize = product.sizes[sizeIdx];
+  const relatedProducts = products.filter((p) => p.slug !== product.slug);
+
   const tabs = {
     how: { title: "How to Use", content: product.howToUse },
-    ingredients: { title: "Key Ingredients", content: product.ingredients.join(" · ") },
+    ingredients: {
+      title: "Ingredients",
+      content: product.ingredients.join(" · "),
+    },
     science: { title: "The Science", content: product.science },
   };
 
   const handleAdd = () => {
     for (let i = 0; i < qty; i++) {
-      addToCart({ slug: product.slug, name: product.name, price: product.price, image: product.image });
+      addToCart({
+        slug: product.slug,
+        name: product.name,
+        price: selectedSize.price,
+        image: product.image,
+      });
     }
   };
 
@@ -49,33 +77,34 @@ const ProductDetail = () => {
       <Navbar />
 
       {/* Breadcrumb */}
-      <div className="pt-20 md:pt-28 pb-4 max-w-7xl mx-auto px-6 lg:px-12">
-        <nav className="flex items-center gap-2 text-xs font-sans text-muted-foreground" aria-label="Breadcrumb">
-          <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
-          <span>/</span>
-          <Link to="/shop" className="hover:text-foreground transition-colors">Shop</Link>
-          <span>/</span>
+      <div className="pt-20 md:pt-28 pb-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+        <nav
+          className="flex items-center gap-2 text-xs font-sans text-muted-foreground"
+          aria-label="Breadcrumb"
+        >
+          <Link to="/" className="hover:text-foreground transition-colors">
+            Home
+          </Link>
+          <span aria-hidden>/</span>
           <span className="text-foreground">{product.name}</span>
         </nav>
       </div>
 
       {/* Product Hero */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-12 pb-16 md:pb-24">
-        <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-start">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pb-12 md:pb-24">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-16 items-start">
           {/* Image */}
           <motion.div
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
-            className="relative"
           >
-            <div className="aspect-[4/5] overflow-hidden rounded-sm bg-muted sticky top-24">
-              <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
-            </div>
-            <div className="absolute top-4 left-4">
-              <span className="text-[10px] tracking-[0.2em] uppercase font-sans bg-background/90 backdrop-blur-sm px-3 py-1.5 text-foreground">
-                {product.category}
-              </span>
+            <div className="aspect-[4/5] overflow-hidden rounded-sm bg-muted md:sticky md:top-24">
+              <img
+                src={product.image}
+                alt={`${product.name} — ${product.tagline}. RÊVE urban skincare ${product.category}`}
+                className="w-full h-full object-cover"
+              />
             </div>
           </motion.div>
 
@@ -86,34 +115,70 @@ const ProductDetail = () => {
             transition={{ duration: 0.6, delay: 0.15 }}
             className="md:pt-4"
           >
-            <p className="text-[11px] tracking-[0.2em] uppercase font-sans text-muted-foreground mb-3">{product.tagline}</p>
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-3 leading-tight">{product.name}</h1>
+            <p className="text-[11px] tracking-[0.2em] uppercase font-sans text-primary mb-2">
+              {product.category}
+            </p>
+            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-2 leading-tight">
+              {product.name}
+            </h1>
+            <p className="font-sans text-sm text-muted-foreground mb-4">
+              {product.tagline}
+            </p>
 
             {/* Rating */}
             <div className="flex items-center gap-3 mb-5">
               <div className="flex gap-0.5">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-accent text-accent" />
+                  <Star
+                    key={i}
+                    className="w-3.5 h-3.5 fill-accent text-accent"
+                  />
                 ))}
               </div>
-              <span className="text-xs font-sans text-muted-foreground">4.9 · 127 reviews</span>
+              <span className="text-xs font-sans text-muted-foreground">
+                4.9 · 127 reviews
+              </span>
             </div>
 
-            <p className="font-serif text-2xl text-foreground mb-6">${product.price}</p>
-            <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-8">{product.description}</p>
+            {/* Price */}
+            <p className="font-serif text-2xl text-foreground mb-2">
+              ${selectedSize.price}
+            </p>
+            <p className="font-sans text-xs text-muted-foreground mb-6">
+              {selectedSize.ml} · {selectedSize.label} size
+            </p>
 
-            {/* Trust badges */}
-            <div className="flex flex-wrap gap-4 mb-8">
-              {trustBadges.map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-2 text-xs font-sans text-muted-foreground">
-                  <Icon className="w-4 h-4 text-primary" strokeWidth={1.5} />
-                  {label}
-                </div>
-              ))}
+            {/* Size selector */}
+            <div className="mb-6">
+              <p className="text-[11px] tracking-[0.15em] uppercase font-sans text-foreground mb-3">
+                Size
+              </p>
+              <div className="flex gap-2">
+                {product.sizes.map((s, i) => (
+                  <button
+                    key={s.ml}
+                    onClick={() => setSizeIdx(i)}
+                    className={`px-4 py-2.5 border text-xs font-sans tracking-wide transition-all duration-200 ${
+                      i === sizeIdx
+                        ? "border-foreground bg-foreground text-background"
+                        : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {s.ml}
+                    <span className="block text-[10px] opacity-70 mt-0.5">
+                      ${s.price}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
+
+            <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-6">
+              {product.description}
+            </p>
 
             {/* Benefits */}
-            <div className="space-y-3 mb-8">
+            <div className="space-y-2.5 mb-6">
               {product.benefits.map((b) => (
                 <div key={b} className="flex items-start gap-3">
                   <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
@@ -123,35 +188,76 @@ const ProductDetail = () => {
             </div>
 
             {/* Quantity + Add to Bag */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-6">
-              <div className="flex items-center border border-border rounded-sm">
-                <button onClick={() => setQty(Math.max(1, qty - 1))} className="px-4 py-3.5 text-muted-foreground hover:text-foreground transition-colors" aria-label="Decrease quantity">
+            <div className="flex flex-col sm:flex-row gap-3 mb-4">
+              <div className="flex items-center border border-border">
+                <button
+                  onClick={() => setQty(Math.max(1, qty - 1))}
+                  className="px-4 py-3.5 text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Decrease quantity"
+                >
                   <Minus className="w-4 h-4" />
                 </button>
-                <span className="px-4 py-3.5 font-sans text-sm text-foreground min-w-[40px] text-center">{qty}</span>
-                <button onClick={() => setQty(qty + 1)} className="px-4 py-3.5 text-muted-foreground hover:text-foreground transition-colors" aria-label="Increase quantity">
+                <span className="px-4 py-3.5 font-sans text-sm text-foreground min-w-[40px] text-center">
+                  {qty}
+                </span>
+                <button
+                  onClick={() => setQty(qty + 1)}
+                  className="px-4 py-3.5 text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Increase quantity"
+                >
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
               <button
                 onClick={handleAdd}
-                className="flex-1 bg-foreground text-background py-4 text-[11px] tracking-[0.2em] uppercase font-sans font-medium hover:bg-foreground/90 transition-colors"
+                className="flex-1 bg-foreground text-background py-4 text-[11px] tracking-[0.2em] uppercase font-sans font-medium hover:bg-foreground/90 transition-colors active:scale-[0.98]"
               >
-                Add to Bag — ${product.price * qty}
+                Add to Bag — ${selectedSize.price * qty}
               </button>
             </div>
 
-            <p className="font-sans text-[11px] text-muted-foreground mb-10">Free shipping on orders over $150</p>
+            {/* Guarantees */}
+            <div className="flex flex-wrap gap-4 mb-8">
+              {guarantees.map(({ icon: Icon, text }) => (
+                <div
+                  key={text}
+                  className="flex items-center gap-2 text-[11px] font-sans text-muted-foreground"
+                >
+                  <Icon className="w-3.5 h-3.5" strokeWidth={1.5} />
+                  {text}
+                </div>
+              ))}
+            </div>
+
+            {/* Trust badges */}
+            <div className="grid grid-cols-2 gap-3 mb-8">
+              {trustBadges.map(({ icon: Icon, label }) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-2.5 border border-border px-3 py-2.5 rounded-sm"
+                >
+                  <Icon
+                    className="w-4 h-4 text-primary flex-shrink-0"
+                    strokeWidth={1.5}
+                  />
+                  <span className="text-[11px] font-sans text-foreground">
+                    {label}
+                  </span>
+                </div>
+              ))}
+            </div>
 
             {/* Tabs */}
-            <div className="border-t border-border pt-8">
-              <div className="flex gap-6 mb-6">
+            <div className="border-t border-border pt-8 mb-8">
+              <div className="flex gap-6 mb-6 overflow-x-auto scrollbar-hide">
                 {(Object.keys(tabs) as Array<keyof typeof tabs>).map((key) => (
                   <button
                     key={key}
                     onClick={() => setActiveTab(key)}
-                    className={`text-[11px] tracking-[0.15em] uppercase font-sans pb-2 border-b-2 transition-colors ${
-                      activeTab === key ? "text-foreground border-foreground" : "text-muted-foreground border-transparent hover:text-foreground"
+                    className={`text-[11px] tracking-[0.15em] uppercase font-sans pb-2 border-b-2 transition-colors whitespace-nowrap ${
+                      activeTab === key
+                        ? "text-foreground border-foreground"
+                        : "text-muted-foreground border-transparent hover:text-foreground"
                     }`}
                   >
                     {tabs[key].title}
@@ -168,23 +274,60 @@ const ProductDetail = () => {
                 {tabs[activeTab].content}
               </motion.p>
             </div>
+
+            {/* FAQs */}
+            <div>
+              <h2 className="text-[11px] tracking-[0.15em] uppercase font-sans text-foreground mb-4">
+                Frequently Asked Questions
+              </h2>
+              <Accordion type="single" collapsible className="w-full">
+                {product.faqs.map((faq, i) => (
+                  <AccordionItem key={i} value={`faq-${i}`} className="border-border">
+                    <AccordionTrigger className="font-sans text-sm text-foreground hover:no-underline py-3">
+                      {faq.q}
+                    </AccordionTrigger>
+                    <AccordionContent className="font-sans text-sm text-muted-foreground leading-relaxed">
+                      {faq.a}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Related Products */}
+      {/* Complete the Ritual */}
       <section className="border-t border-border py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <h2 className="font-serif text-2xl md:text-3xl font-light text-foreground text-center mb-10">Complete the Ritual</h2>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          <h2 className="font-serif text-2xl md:text-3xl font-light text-foreground text-center mb-10">
+            Complete the Ritual
+          </h2>
           <div className="grid sm:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto">
             {relatedProducts.map((rp) => (
-              <Link key={rp.slug} to={`/product/${rp.slug}`} className="group block bg-card rounded-sm border border-border overflow-hidden hover:shadow-lg transition-shadow">
+              <Link
+                key={rp.slug}
+                to={`/product/${rp.slug}`}
+                className="group block bg-card rounded-sm border border-border overflow-hidden hover:shadow-lg transition-shadow"
+              >
                 <div className="aspect-[4/3] overflow-hidden bg-muted">
-                  <img src={rp.image} alt={rp.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                  <img
+                    src={rp.image}
+                    alt={`${rp.name} — RÊVE urban skincare`}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                  />
                 </div>
                 <div className="p-5">
-                  <h3 className="font-serif text-lg text-foreground group-hover:text-primary transition-colors">{rp.name}</h3>
-                  <p className="font-sans text-sm text-muted-foreground mt-1">${rp.price}</p>
+                  <p className="text-[10px] tracking-[0.15em] uppercase font-sans text-primary mb-1">
+                    {rp.category}
+                  </p>
+                  <h3 className="font-serif text-lg text-foreground group-hover:text-primary transition-colors">
+                    {rp.name}
+                  </h3>
+                  <p className="font-sans text-sm text-muted-foreground mt-1">
+                    From ${rp.sizes[0].price}
+                  </p>
                 </div>
               </Link>
             ))}
@@ -194,28 +337,41 @@ const ProductDetail = () => {
 
       <Footer />
 
-      {/* Product JSON-LD */}
+      {/* Product + FAQ JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: product.name,
-            description: product.description,
-            image: product.image,
-            offers: {
-              "@type": "Offer",
-              price: product.price,
-              priceCurrency: "USD",
-              availability: "https://schema.org/InStock",
+          __html: JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              name: product.name,
+              description: product.description,
+              image: product.image,
+              brand: { "@type": "Brand", name: "RÊVE" },
+              offers: product.sizes.map((s) => ({
+                "@type": "Offer",
+                price: s.price,
+                priceCurrency: "USD",
+                availability: "https://schema.org/InStock",
+                name: `${s.label} — ${s.ml}`,
+              })),
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.9",
+                reviewCount: "127",
+              },
             },
-            aggregateRating: {
-              "@type": "AggregateRating",
-              ratingValue: "4.9",
-              reviewCount: "127",
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: product.faqs.map((f) => ({
+                "@type": "Question",
+                name: f.q,
+                acceptedAnswer: { "@type": "Answer", text: f.a },
+              })),
             },
-          }),
+          ]),
         }}
       />
     </div>

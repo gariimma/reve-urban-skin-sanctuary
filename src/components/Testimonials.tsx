@@ -5,7 +5,7 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const testimonials = [
   {
-    quote: "After two weeks, the dullness I'd been living with for years just... vanished. My skin looks like it's actually breathing again.",
+    quote: "After two weeks, the dullness I'd been living with for years just vanished. My skin looks like it's actually breathing again.",
     name: "Clara M.",
     location: "London",
     rating: 5,
@@ -19,7 +19,7 @@ const testimonials = [
     product: "Blue Light Repair Cream",
   },
   {
-    quote: "The serum texture is unlike anything I've tried — lightweight but you can feel it working. My dermatologist noticed the difference.",
+    quote: "The serum texture is unlike anything I've tried. Lightweight but you can feel it working. My dermatologist noticed the difference.",
     name: "Priya K.",
     location: "Mumbai",
     rating: 4,
@@ -90,7 +90,7 @@ const Testimonials = () => {
                 "{testimonials[sideIndex(-1)].quote}"
               </p>
               <p className="font-sans text-xs text-muted-foreground mt-4">
-                {testimonials[sideIndex(-1)].name} — {testimonials[sideIndex(-1)].location}
+                {testimonials[sideIndex(-1)].name} · {testimonials[sideIndex(-1)].location}
               </p>
             </div>
           </div>
@@ -101,7 +101,7 @@ const Testimonials = () => {
                 "{testimonials[sideIndex(1)].quote}"
               </p>
               <p className="font-sans text-xs text-muted-foreground mt-4">
-                {testimonials[sideIndex(1)].name} — {testimonials[sideIndex(1)].location}
+                {testimonials[sideIndex(1)].name} · {testimonials[sideIndex(1)].location}
               </p>
             </div>
           </div>

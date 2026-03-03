@@ -17,7 +17,7 @@ const BrandStory = () => {
             <div className="aspect-[3/4] overflow-hidden rounded-sm">
               <img
                 src={urbanScene}
-                alt="City skyline at golden hour — where RÊVE skincare was born"
+                alt="City skyline at golden hour, where RÊVE skincare was born"
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
@@ -55,11 +55,10 @@ const BrandStory = () => {
             <div className="space-y-5 font-sans text-sm text-muted-foreground leading-relaxed">
               <p>
                 We spent a decade studying how pollution accelerates skin aging
-                across megacities worldwide — and saw that no brand was solving
-                the real problem.
+                across megacities worldwide. No brand was solving the real problem.
               </p>
               <p>
-                RÊVE — French for <em>"dream"</em> — embodies our vision: skin
+                RÊVE (French for <em>"dream"</em>) embodies our vision: skin
                 so resilient that thriving in any city feels effortless. Korean
                 skincare innovation meets French cosmetic elegance in every
                 formula.

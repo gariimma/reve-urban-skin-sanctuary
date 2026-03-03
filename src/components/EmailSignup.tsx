@@ -21,7 +21,7 @@ const EmailSignup = () => {
           Join the revival.
         </h2>
         <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-8 md:mb-10 max-w-md mx-auto">
-          Receive skincare insights, early access to new products, and exclusive offers. No spam — just science-backed skin wisdom.
+          Receive skincare insights, early access to new products, and exclusive offers. Science-backed skin wisdom, never spam.
         </p>
         <form
           onSubmit={(e) => e.preventDefault()}

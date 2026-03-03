@@ -1,3 +1,4 @@
+import PageTransition from "@/components/PageTransition";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import CredibilityBar from "@/components/CredibilityBar";
@@ -12,34 +13,36 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen scrollbar-hide">
-      <Navbar />
-      <Hero />
-      <CredibilityBar />
-      <TrustBar />
-      <ProductShowcase />
-      <BrandStory />
-      <HowItWorks />
-      <Testimonials />
-      <EducationSection />
-      <EmailSignup />
-      <Footer />
+    <PageTransition>
+      <div className="min-h-screen scrollbar-hide">
+        <Navbar />
+        <Hero />
+        <CredibilityBar />
+        <TrustBar />
+        <ProductShowcase />
+        <BrandStory />
+        <HowItWorks />
+        <Testimonials />
+        <EducationSection />
+        <EmailSignup />
+        <Footer />
 
-      {/* JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "RÊVE Skincare",
-            url: "https://reveskincare.com",
-            description: "Urban skin recovery scientifically crafted for modern life. Seoul science meets French elegance.",
-            sameAs: [],
-          }),
-        }}
-      />
-    </div>
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "RÊVE Skincare",
+              url: "https://reveskincare.com",
+              description: "Urban skin recovery scientifically crafted for modern life. Seoul science meets French elegance.",
+              sameAs: [],
+            }),
+          }}
+        />
+      </div>
+    </PageTransition>
   );
 };
 

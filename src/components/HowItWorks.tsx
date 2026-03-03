@@ -90,7 +90,7 @@ const HowItWorks = () => {
                   }
                   className="text-[11px] tracking-[0.15em] uppercase font-sans text-foreground border border-border px-5 py-2 hover:bg-foreground hover:text-background transition-all duration-300"
                 >
-                  Add to Bag — ${step.product.price}
+                  Add to Bag · ${step.product.price}
                 </button>
                 <Link
                   to={`/product/${step.product.slug}`}

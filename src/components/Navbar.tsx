@@ -87,7 +87,7 @@ const Navbar = () => {
             ))}
           </div>
 
-          <Link to="/" className="absolute left-1/2 -translate-x-1/2 z-10 group" aria-label="RÊVE — Go to homepage">
+          <Link to="/" className="absolute left-1/2 -translate-x-1/2 z-10 group" aria-label="RÊVE, Go to homepage">
             <span className={`font-serif tracking-[0.3em] transition-all duration-500 group-hover:opacity-70 ${
               showDark
                 ? "text-foreground text-xl md:text-2xl lg:text-3xl"

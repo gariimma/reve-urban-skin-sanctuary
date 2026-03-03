@@ -13,11 +13,12 @@ import {
   RotateCcw,
   Award,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { products, getProduct } from "@/data/products";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import StickyAddToCart from "@/components/StickyAddToCart";
 import {
   Accordion,
   AccordionContent,
@@ -42,8 +43,9 @@ const ProductDetail = () => {
   const product = slug ? getProduct(slug) : null;
   const { addToCart } = useCart();
   const [qty, setQty] = useState(1);
-  const [sizeIdx, setSizeIdx] = useState(1); // default Regular
+  const [sizeIdx, setSizeIdx] = useState(1);
   const [activeTab, setActiveTab] = useState<"how" | "ingredients" | "science">("how");
+  const addToCartRef = useRef<HTMLDivElement>(null);
 
   if (!product) {
     return <Navigate to="/" replace />;
@@ -188,7 +190,7 @@ const ProductDetail = () => {
             </div>
 
             {/* Quantity + Add to Bag */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-4">
+            <div ref={addToCartRef} className="flex flex-col sm:flex-row gap-3 mb-4">
               <div className="flex items-center border border-border">
                 <button
                   onClick={() => setQty(Math.max(1, qty - 1))}
@@ -374,6 +376,15 @@ const ProductDetail = () => {
           ]),
         }}
       />
+
+      {product && (
+        <StickyAddToCart
+          product={{ slug: product.slug, name: product.name, image: product.image }}
+          selectedPrice={selectedSize.price}
+          selectedMl={selectedSize.ml}
+          triggerRef={addToCartRef as React.RefObject<HTMLElement>}
+        />
+      )}
     </div>
   );
 };

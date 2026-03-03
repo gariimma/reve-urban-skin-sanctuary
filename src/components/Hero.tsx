@@ -1,12 +1,9 @@
 import { products } from "@/data/products";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { useCart } from "@/contexts/CartContext";
 
 const Hero = () => {
   const featured = products[0];
-  const { addToCart } = useCart();
-
   return (
     <section
       className="relative h-[100svh] md:h-screen flex items-center overflow-hidden"
@@ -54,26 +51,42 @@ const Hero = () => {
           Urban skincare for overnight repair.
         </p>
 
+        {/* Bestseller callout */}
+        <div
+          className="flex items-center gap-4 mb-5 opacity-0 animate-fade-in"
+          style={{ animationDelay: "1s" }}
+        >
+          <img
+            src={featured.image}
+            alt={`${featured.name} — RÊVE bestselling product`}
+            className="w-14 h-14 md:w-16 md:h-16 rounded-sm object-cover border border-white/20"
+          />
+          <div>
+            <p className="text-[10px] tracking-[0.15em] uppercase font-sans text-white/60">
+              Best Seller
+            </p>
+            <p className="font-serif text-sm md:text-base text-white">
+              {featured.name}
+            </p>
+            <p className="font-sans text-xs text-white/60">
+              {featured.tagline} — From ${featured.sizes[0].price}
+            </p>
+          </div>
+        </div>
+
         <div
           className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 opacity-0 animate-fade-in"
-          style={{ animationDelay: "1.1s" }}
+          style={{ animationDelay: "1.2s" }}
         >
-          <button
-            onClick={() =>
-              addToCart({
-                slug: featured.slug,
-                name: featured.name,
-                price: featured.price,
-                image: featured.image,
-              })
-            }
+          <Link
+            to={`/product/${featured.slug}`}
             className="group relative overflow-hidden bg-white px-7 md:px-10 py-3.5 md:py-4 w-fit active:scale-[0.98] transition-transform"
           >
             <span className="absolute inset-0 bg-primary translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out" />
             <span className="relative z-10 text-[11px] md:text-[12px] tracking-[0.2em] uppercase font-sans font-medium text-foreground group-hover:text-primary-foreground transition-colors duration-500">
-              Shop Best Seller — ${featured.price}
+              Shop Best Seller — ${featured.sizes[1].price}
             </span>
-          </button>
+          </Link>
 
           <a
             href="#products"

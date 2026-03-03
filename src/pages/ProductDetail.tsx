@@ -1,7 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  ArrowLeft,
   Check,
   ShieldCheck,
   Leaf,
@@ -16,9 +15,15 @@ import {
 import { useState, useRef } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { products, getProduct } from "@/data/products";
+import PageTransition from "@/components/PageTransition";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StickyAddToCart from "@/components/StickyAddToCart";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   Accordion,
   AccordionContent,
@@ -58,7 +63,7 @@ const ProductDetail = () => {
     how: { title: "How to Use", content: product.howToUse },
     ingredients: {
       title: "Ingredients",
-      content: product.ingredients.join(" · "),
+      content: null,
     },
     science: { title: "The Science", content: product.science },
   };
@@ -75,317 +80,338 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
+    <PageTransition>
+      <div className="min-h-screen bg-background">
+        <Navbar />
 
-      {/* Breadcrumb */}
-      <div className="pt-20 md:pt-28 pb-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-        <nav
-          className="flex items-center gap-2 text-xs font-sans text-muted-foreground"
-          aria-label="Breadcrumb"
-        >
-          <Link to="/" className="hover:text-foreground transition-colors">
-            Home
-          </Link>
-          <span aria-hidden>/</span>
-          <span className="text-foreground">{product.name}</span>
-        </nav>
-      </div>
-
-      {/* Product Hero */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pb-12 md:pb-24">
-        <div className="grid md:grid-cols-2 gap-6 md:gap-16 items-start">
-          {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
+        {/* Breadcrumb */}
+        <div className="pt-20 md:pt-28 pb-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          <nav
+            className="flex items-center gap-2 text-xs font-sans text-muted-foreground"
+            aria-label="Breadcrumb"
           >
-            <div className="aspect-[4/5] overflow-hidden rounded-sm bg-muted md:sticky md:top-24">
-              <img
-                src={product.image}
-                alt={`${product.name} — ${product.tagline}. RÊVE urban skincare ${product.category}`}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </motion.div>
+            <Link to="/" className="hover:text-foreground transition-colors">
+              Home
+            </Link>
+            <span aria-hidden>/</span>
+            <span className="text-foreground">{product.name}</span>
+          </nav>
+        </div>
 
-          {/* Details */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="md:pt-4"
-          >
-            <p className="text-[11px] tracking-[0.2em] uppercase font-sans text-primary mb-2">
-              {product.category}
-            </p>
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-2 leading-tight">
-              {product.name}
-            </h1>
-            <p className="font-sans text-sm text-muted-foreground mb-4">
-              {product.tagline}
-            </p>
-
-            {/* Rating */}
-            <div className="flex items-center gap-3 mb-5">
-              <div className="flex gap-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-3.5 h-3.5 fill-accent text-accent"
-                  />
-                ))}
+        {/* Product Hero */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pb-12 md:pb-24">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-16 items-start">
+            {/* Image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="aspect-[4/5] overflow-hidden rounded-sm bg-muted md:sticky md:top-24">
+                <img
+                  src={product.image}
+                  alt={`${product.name}, ${product.tagline}. RÊVE urban skincare ${product.category}`}
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <span className="text-xs font-sans text-muted-foreground">
-                4.9 · 127 reviews
-              </span>
-            </div>
+            </motion.div>
 
-            {/* Price */}
-            <p className="font-serif text-2xl text-foreground mb-2">
-              ${selectedSize.price}
-            </p>
-            <p className="font-sans text-xs text-muted-foreground mb-6">
-              {selectedSize.ml} · {selectedSize.label} size
-            </p>
-
-            {/* Size selector */}
-            <div className="mb-6">
-              <p className="text-[11px] tracking-[0.15em] uppercase font-sans text-foreground mb-3">
-                Size
+            {/* Details */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="md:pt-4"
+            >
+              <p className="text-[11px] tracking-[0.2em] uppercase font-sans text-primary mb-2">
+                {product.category}
               </p>
-              <div className="flex gap-2">
-                {product.sizes.map((s, i) => (
-                  <button
-                    key={s.ml}
-                    onClick={() => setSizeIdx(i)}
-                    className={`px-4 py-2.5 border text-xs font-sans tracking-wide transition-all duration-200 ${
-                      i === sizeIdx
-                        ? "border-foreground bg-foreground text-background"
-                        : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {s.ml}
-                    <span className="block text-[10px] opacity-70 mt-0.5">
-                      ${s.price}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
+              <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-2 leading-tight">
+                {product.name}
+              </h1>
+              <p className="font-sans text-sm text-muted-foreground mb-4">
+                {product.tagline}
+              </p>
 
-            <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-6">
-              {product.description}
-            </p>
-
-            {/* Benefits */}
-            <div className="space-y-2.5 mb-6">
-              {product.benefits.map((b) => (
-                <div key={b} className="flex items-start gap-3">
-                  <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                  <span className="font-sans text-sm text-foreground">{b}</span>
+              {/* Rating */}
+              <div className="flex items-center gap-3 mb-5">
+                <div className="flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-3.5 h-3.5 fill-accent text-accent"
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
-
-            {/* Quantity + Add to Bag */}
-            <div ref={addToCartRef} className="flex flex-col sm:flex-row gap-3 mb-4">
-              <div className="flex items-center border border-border">
-                <button
-                  onClick={() => setQty(Math.max(1, qty - 1))}
-                  className="px-4 py-3.5 text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="Decrease quantity"
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-                <span className="px-4 py-3.5 font-sans text-sm text-foreground min-w-[40px] text-center">
-                  {qty}
+                <span className="text-xs font-sans text-muted-foreground">
+                  4.9 · 127 reviews
                 </span>
+              </div>
+
+              {/* Price */}
+              <p className="font-serif text-2xl text-foreground mb-2">
+                ${selectedSize.price}
+              </p>
+              <p className="font-sans text-xs text-muted-foreground mb-6">
+                {selectedSize.ml} · {selectedSize.label} size
+              </p>
+
+              {/* Size selector */}
+              <div className="mb-6">
+                <p className="text-[11px] tracking-[0.15em] uppercase font-sans text-foreground mb-3">
+                  Size
+                </p>
+                <div className="flex gap-2">
+                  {product.sizes.map((s, i) => (
+                    <button
+                      key={s.ml}
+                      onClick={() => setSizeIdx(i)}
+                      className={`px-4 py-2.5 border text-xs font-sans tracking-wide transition-all duration-200 ${
+                        i === sizeIdx
+                          ? "border-foreground bg-foreground text-background"
+                          : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {s.ml}
+                      <span className="block text-[10px] opacity-70 mt-0.5">
+                        ${s.price}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-6">
+                {product.description}
+              </p>
+
+              {/* Benefits */}
+              <div className="space-y-2.5 mb-6">
+                {product.benefits.map((b) => (
+                  <div key={b} className="flex items-start gap-3">
+                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                    <span className="font-sans text-sm text-foreground">{b}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Quantity + Add to Bag */}
+              <div ref={addToCartRef} className="flex flex-col sm:flex-row gap-3 mb-4">
+                <div className="flex items-center border border-border">
+                  <button
+                    onClick={() => setQty(Math.max(1, qty - 1))}
+                    className="px-4 py-3.5 text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="px-4 py-3.5 font-sans text-sm text-foreground min-w-[40px] text-center">
+                    {qty}
+                  </span>
+                  <button
+                    onClick={() => setQty(qty + 1)}
+                    className="px-4 py-3.5 text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label="Increase quantity"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
                 <button
-                  onClick={() => setQty(qty + 1)}
-                  className="px-4 py-3.5 text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="Increase quantity"
+                  onClick={handleAdd}
+                  className="flex-1 bg-foreground text-background py-4 text-[11px] tracking-[0.2em] uppercase font-sans font-medium hover:bg-foreground/90 transition-colors active:scale-[0.98]"
                 >
-                  <Plus className="w-4 h-4" />
+                  Add to Bag · ${selectedSize.price * qty}
                 </button>
               </div>
-              <button
-                onClick={handleAdd}
-                className="flex-1 bg-foreground text-background py-4 text-[11px] tracking-[0.2em] uppercase font-sans font-medium hover:bg-foreground/90 transition-colors active:scale-[0.98]"
-              >
-                Add to Bag — ${selectedSize.price * qty}
-              </button>
-            </div>
 
-            {/* Guarantees */}
-            <div className="flex flex-wrap gap-4 mb-8">
-              {guarantees.map(({ icon: Icon, text }) => (
-                <div
-                  key={text}
-                  className="flex items-center gap-2 text-[11px] font-sans text-muted-foreground"
-                >
-                  <Icon className="w-3.5 h-3.5" strokeWidth={1.5} />
-                  {text}
-                </div>
-              ))}
-            </div>
-
-            {/* Trust badges */}
-            <div className="grid grid-cols-2 gap-3 mb-8">
-              {trustBadges.map(({ icon: Icon, label }) => (
-                <div
-                  key={label}
-                  className="flex items-center gap-2.5 border border-border px-3 py-2.5 rounded-sm"
-                >
-                  <Icon
-                    className="w-4 h-4 text-primary flex-shrink-0"
-                    strokeWidth={1.5}
-                  />
-                  <span className="text-[11px] font-sans text-foreground">
-                    {label}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            {/* Tabs */}
-            <div className="border-t border-border pt-8 mb-8">
-              <div className="flex gap-6 mb-6 overflow-x-auto scrollbar-hide">
-                {(Object.keys(tabs) as Array<keyof typeof tabs>).map((key) => (
-                  <button
-                    key={key}
-                    onClick={() => setActiveTab(key)}
-                    className={`text-[11px] tracking-[0.15em] uppercase font-sans pb-2 border-b-2 transition-colors whitespace-nowrap ${
-                      activeTab === key
-                        ? "text-foreground border-foreground"
-                        : "text-muted-foreground border-transparent hover:text-foreground"
-                    }`}
+              {/* Guarantees */}
+              <div className="flex flex-wrap gap-4 mb-8">
+                {guarantees.map(({ icon: Icon, text }) => (
+                  <div
+                    key={text}
+                    className="flex items-center gap-2 text-[11px] font-sans text-muted-foreground"
                   >
-                    {tabs[key].title}
-                  </button>
+                    <Icon className="w-3.5 h-3.5" strokeWidth={1.5} />
+                    {text}
+                  </div>
                 ))}
               </div>
-              <motion.p
-                key={activeTab}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="font-sans text-sm text-muted-foreground leading-relaxed"
-              >
-                {tabs[activeTab].content}
-              </motion.p>
-            </div>
 
-            {/* FAQs */}
-            <div>
-              <h2 className="text-[11px] tracking-[0.15em] uppercase font-sans text-foreground mb-4">
-                Frequently Asked Questions
-              </h2>
-              <Accordion type="single" collapsible className="w-full">
-                {product.faqs.map((faq, i) => (
-                  <AccordionItem key={i} value={`faq-${i}`} className="border-border">
-                    <AccordionTrigger className="font-sans text-sm text-foreground hover:no-underline py-3">
-                      {faq.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="font-sans text-sm text-muted-foreground leading-relaxed">
-                      {faq.a}
-                    </AccordionContent>
-                  </AccordionItem>
+              {/* Trust badges */}
+              <div className="grid grid-cols-2 gap-3 mb-8">
+                {trustBadges.map(({ icon: Icon, label }) => (
+                  <div
+                    key={label}
+                    className="flex items-center gap-2.5 border border-border px-3 py-2.5 rounded-sm"
+                  >
+                    <Icon
+                      className="w-4 h-4 text-primary flex-shrink-0"
+                      strokeWidth={1.5}
+                    />
+                    <span className="text-[11px] font-sans text-foreground">
+                      {label}
+                    </span>
+                  </div>
                 ))}
-              </Accordion>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+              </div>
 
-      {/* Complete the Ritual */}
-      <section className="border-t border-border py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-          <h2 className="font-serif text-2xl md:text-3xl font-light text-foreground text-center mb-10">
-            Complete the Ritual
-          </h2>
-          <div className="grid sm:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto">
-            {relatedProducts.map((rp) => (
-              <Link
-                key={rp.slug}
-                to={`/product/${rp.slug}`}
-                className="group block bg-card rounded-sm border border-border overflow-hidden hover:shadow-lg transition-shadow"
-              >
-                <div className="aspect-[4/3] overflow-hidden bg-muted">
-                  <img
-                    src={rp.image}
-                    alt={`${rp.name} — RÊVE urban skincare`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    loading="lazy"
-                  />
+              {/* Tabs */}
+              <div className="border-t border-border pt-8 mb-8">
+                <div className="flex gap-6 mb-6 overflow-x-auto scrollbar-hide">
+                  {(Object.keys(tabs) as Array<keyof typeof tabs>).map((key) => (
+                    <button
+                      key={key}
+                      onClick={() => setActiveTab(key)}
+                      className={`text-[11px] tracking-[0.15em] uppercase font-sans pb-2 border-b-2 transition-colors whitespace-nowrap ${
+                        activeTab === key
+                          ? "text-foreground border-foreground"
+                          : "text-muted-foreground border-transparent hover:text-foreground"
+                      }`}
+                    >
+                      {tabs[key].title}
+                    </button>
+                  ))}
                 </div>
-                <div className="p-5">
-                  <p className="text-[10px] tracking-[0.15em] uppercase font-sans text-primary mb-1">
-                    {rp.category}
-                  </p>
-                  <h3 className="font-serif text-lg text-foreground group-hover:text-primary transition-colors">
-                    {rp.name}
-                  </h3>
-                  <p className="font-sans text-sm text-muted-foreground mt-1">
-                    From ${rp.sizes[0].price}
-                  </p>
-                </div>
-              </Link>
-            ))}
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {activeTab === "ingredients" ? (
+                    <div className="flex flex-wrap gap-2">
+                      {product.ingredientDetails.map((ing) => (
+                        <Tooltip key={ing.name}>
+                          <TooltipTrigger asChild>
+                            <span className="inline-block px-3 py-1.5 border border-border rounded-full text-xs font-sans text-foreground cursor-default hover:border-primary hover:bg-primary/5 transition-all duration-300">
+                              {ing.name}
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent side="top" className="max-w-[240px]">
+                            <p className="font-sans text-xs font-medium mb-1">{ing.benefit}</p>
+                            <p className="font-sans text-[10px] text-muted-foreground">{ing.source}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="font-sans text-sm text-muted-foreground leading-relaxed">
+                      {tabs[activeTab].content}
+                    </p>
+                  )}
+                </motion.div>
+              </div>
+
+              {/* FAQs */}
+              <div>
+                <h2 className="text-[11px] tracking-[0.15em] uppercase font-sans text-foreground mb-4">
+                  Frequently Asked Questions
+                </h2>
+                <Accordion type="single" collapsible className="w-full">
+                  {product.faqs.map((faq, i) => (
+                    <AccordionItem key={i} value={`faq-${i}`} className="border-border">
+                      <AccordionTrigger className="font-sans text-sm text-foreground hover:no-underline py-3">
+                        {faq.q}
+                      </AccordionTrigger>
+                      <AccordionContent className="font-sans text-sm text-muted-foreground leading-relaxed">
+                        {faq.a}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <Footer />
+        {/* Complete the Ritual */}
+        <section className="border-t border-border py-16 md:py-24">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+            <h2 className="font-serif text-2xl md:text-3xl font-light text-foreground text-center mb-10">
+              Complete the Ritual
+            </h2>
+            <div className="grid sm:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto">
+              {relatedProducts.map((rp) => (
+                <Link
+                  key={rp.slug}
+                  to={`/product/${rp.slug}`}
+                  className="group block bg-card rounded-sm border border-border overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  <div className="aspect-[4/3] overflow-hidden bg-muted">
+                    <img
+                      src={rp.image}
+                      alt={`${rp.name}, RÊVE urban skincare`}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <p className="text-[10px] tracking-[0.15em] uppercase font-sans text-primary mb-1">
+                      {rp.category}
+                    </p>
+                    <h3 className="font-serif text-lg text-foreground group-hover:text-primary transition-colors">
+                      {rp.name}
+                    </h3>
+                    <p className="font-sans text-sm text-muted-foreground mt-1">
+                      From ${rp.sizes[0].price}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
 
-      {/* Product + FAQ JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify([
-            {
-              "@context": "https://schema.org",
-              "@type": "Product",
-              name: product.name,
-              description: product.description,
-              image: product.image,
-              brand: { "@type": "Brand", name: "RÊVE" },
-              offers: product.sizes.map((s) => ({
-                "@type": "Offer",
-                price: s.price,
-                priceCurrency: "USD",
-                availability: "https://schema.org/InStock",
-                name: `${s.label} — ${s.ml}`,
-              })),
-              aggregateRating: {
-                "@type": "AggregateRating",
-                ratingValue: "4.9",
-                reviewCount: "127",
+        <Footer />
+
+        {/* Product + FAQ JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Product",
+                name: product.name,
+                description: product.description,
+                image: product.image,
+                brand: { "@type": "Brand", name: "RÊVE" },
+                offers: product.sizes.map((s) => ({
+                  "@type": "Offer",
+                  price: s.price,
+                  priceCurrency: "USD",
+                  availability: "https://schema.org/InStock",
+                  name: `${s.label}, ${s.ml}`,
+                })),
+                aggregateRating: {
+                  "@type": "AggregateRating",
+                  ratingValue: "4.9",
+                  reviewCount: "127",
+                },
               },
-            },
-            {
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              mainEntity: product.faqs.map((f) => ({
-                "@type": "Question",
-                name: f.q,
-                acceptedAnswer: { "@type": "Answer", text: f.a },
-              })),
-            },
-          ]),
-        }}
-      />
-
-      {product && (
-        <StickyAddToCart
-          product={{ slug: product.slug, name: product.name, image: product.image }}
-          selectedPrice={selectedSize.price}
-          selectedMl={selectedSize.ml}
-          triggerRef={addToCartRef as React.RefObject<HTMLElement>}
+              {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                mainEntity: product.faqs.map((f) => ({
+                  "@type": "Question",
+                  name: f.q,
+                  acceptedAnswer: { "@type": "Answer", text: f.a },
+                })),
+              },
+            ]),
+          }}
         />
-      )}
-    </div>
+
+        {product && (
+          <StickyAddToCart
+            product={{ slug: product.slug, name: product.name, image: product.image }}
+            selectedPrice={selectedSize.price}
+            selectedMl={selectedSize.ml}
+            triggerRef={addToCartRef as React.RefObject<HTMLElement>}
+          />
+        )}
+      </div>
+    </PageTransition>
   );
 };
 

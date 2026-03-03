@@ -34,7 +34,7 @@ const ProductShowcase = () => {
             The 3-Step Ritual
           </h2>
           <p className="font-sans text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
-            Scientifically sequenced to work together — starting from ${Math.min(...products.map(p => p.price))}.
+            Scientifically sequenced to work together. Starting from ${Math.min(...products.map(p => p.price))}.
           </p>
         </motion.div>
 
@@ -54,7 +54,7 @@ const ProductShowcase = () => {
                 <div className="relative aspect-[4/5] overflow-hidden bg-muted">
                   <img
                     src={product.image}
-                    alt={`${product.name} — RÊVE ${product.category} urban skincare`}
+                    alt={`${product.name}, RÊVE ${product.category} urban skincare`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     loading="lazy"
                   />
@@ -96,7 +96,7 @@ const ProductShowcase = () => {
                 }
                 className="w-full mt-2 py-3 border border-border text-[11px] tracking-[0.15em] uppercase font-sans text-foreground hover:bg-foreground hover:text-background transition-all duration-300 active:scale-[0.98]"
               >
-                Add to Bag — ${product.price}
+                Add to Bag · ${product.price}
               </button>
             </motion.div>
           ))}

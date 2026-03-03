@@ -2,6 +2,12 @@ import product1 from "@/assets/product-1.jpg";
 import product2 from "@/assets/product-2.jpg";
 import product3 from "@/assets/product-3.jpg";
 
+export interface IngredientInfo {
+  name: string;
+  benefit: string;
+  source: string;
+}
+
 export interface Product {
   slug: string;
   name: string;
@@ -14,6 +20,7 @@ export interface Product {
   sizes: { label: string; ml: string; price: number }[];
   benefits: string[];
   ingredients: string[];
+  ingredientDetails: IngredientInfo[];
   howToUse: string;
   science: string;
   faqs: { q: string; a: string }[];
@@ -48,14 +55,21 @@ export const products: Product[] = [
       "Ceramide Complex",
       "Vitamin E",
     ],
+    ingredientDetails: [
+      { name: "Niacinamide (5%)", benefit: "Reduces pores and evens skin tone", source: "Derived from Vitamin B3" },
+      { name: "Astaxanthin", benefit: "6,000x more antioxidant power than vitamin C", source: "Extracted from Haematococcus pluvialis micro-algae" },
+      { name: "Fermented Rice Extract", benefit: "Brightens and strengthens the moisture barrier", source: "Fermented Oryza sativa (Korean rice bran)" },
+      { name: "Ceramide Complex", benefit: "Rebuilds and reinforces the skin's lipid barrier", source: "Plant-derived biomimetic ceramides" },
+      { name: "Vitamin E", benefit: "Protects cell membranes from oxidative damage", source: "Derived from sunflower seed oil" },
+    ],
     howToUse:
-      "Apply 2–3 drops to clean skin every morning before moisturizer. Pat gently into skin, focusing on areas most exposed to environmental stress.",
+      "Apply 2-3 drops to clean skin every morning before moisturizer. Pat gently into skin, focusing on areas most exposed to environmental stress.",
     science:
       "Our Urban Shield Complex™ combines three key actives that work synergistically to protect and repair. Clinical trials showed a 94% improvement in skin barrier function after 4 weeks of daily use.",
     faqs: [
       { q: "Can I use this under makeup?", a: "Absolutely. The serum absorbs quickly and creates a smooth, non-greasy base for makeup application." },
       { q: "Is it suitable for sensitive skin?", a: "Yes. It's dermatologist tested, fragrance-free, and formulated for all skin types including sensitive." },
-      { q: "How long does one bottle last?", a: "The 30ml bottle lasts approximately 6–8 weeks with daily use (2–3 drops per application)." },
+      { q: "How long does one bottle last?", a: "The 30ml bottle lasts approximately 6 to 8 weeks with daily use (2-3 drops per application)." },
     ],
   },
   {
@@ -86,6 +100,13 @@ export const products: Product[] = [
       "Adaptogenic Mushroom Extract",
       "Hyaluronic Acid",
     ],
+    ingredientDetails: [
+      { name: "Biomimetic Ceramides", benefit: "Mirrors the skin's natural lipid structure for deep repair", source: "Synthesized to match human ceramide ratios" },
+      { name: "Blue Light Filter Complex", benefit: "Absorbs HEV light in the 400-450nm damage range", source: "Proprietary blend of lutein and zeaxanthin" },
+      { name: "Squalane", benefit: "Lightweight hydration that prevents moisture loss", source: "Derived from olive oil (100% plant-based)" },
+      { name: "Adaptogenic Mushroom Extract", benefit: "Calms inflammation and boosts skin resilience", source: "Extracted from Reishi and Chaga mushrooms" },
+      { name: "Hyaluronic Acid", benefit: "Holds 1,000x its weight in water for deep plumping", source: "Bio-fermented, multi-molecular weight" },
+    ],
     howToUse:
       "Apply a pea-sized amount to face and neck each evening after cleansing and serum. Massage in upward motions until fully absorbed.",
     science:
@@ -93,7 +114,7 @@ export const products: Product[] = [
     faqs: [
       { q: "Should I use this morning or night?", a: "It's designed for evening use to maximize overnight repair, but it can also be used as a day cream." },
       { q: "Will it feel heavy on oily skin?", a: "No. The gel-cream texture absorbs quickly and won't clog pores. It's oil-free and non-comedogenic." },
-      { q: "Can I layer this with the serum?", a: "Yes — they're designed to work together. Apply the serum first, then this cream as the second step." },
+      { q: "Can I layer this with the serum?", a: "Yes, they're designed to work together. Apply the serum first, then this cream as the second step." },
     ],
   },
   {
@@ -124,14 +145,21 @@ export const products: Product[] = [
       "Jojoba Oil",
       "Evening Primrose Oil",
     ],
+    ingredientDetails: [
+      { name: "Rosehip Seed Oil", benefit: "Rich in vitamin A and essential fatty acids for skin renewal", source: "Cold-pressed from Rosa canina seeds" },
+      { name: "Sea Buckthorn", benefit: "Packed with omega-7 to heal and protect damaged skin", source: "Harvested from Hippophae rhamnoides berries" },
+      { name: "Bakuchiol", benefit: "Stimulates collagen production without retinol irritation", source: "Extracted from Psoralea corylifolia seeds" },
+      { name: "Jojoba Oil", benefit: "Balances sebum production and deeply moisturizes", source: "Cold-pressed from Simmondsia chinensis seeds" },
+      { name: "Evening Primrose Oil", benefit: "Soothes inflammation and strengthens the lipid barrier", source: "Pressed from Oenothera biennis seeds" },
+    ],
     howToUse:
-      "Warm 3–4 drops between palms, then press gently into skin as the final step of your evening routine. Can also be mixed with your moisturizer.",
+      "Warm 3-4 drops between palms, then press gently into skin as the final step of your evening routine. Can also be mixed with your moisturizer.",
     science:
       "Cold-pressed botanical oils mirror the lipid composition of a healthy skin barrier. Our proprietary extraction preserves the full spectrum of fatty acids, antioxidants, and vitamins that accelerate barrier recovery.",
     faqs: [
       { q: "Is this oil comedogenic?", a: "No. We use only non-comedogenic oils (rosehip, jojoba) that won't clog pores or cause breakouts." },
       { q: "Can I use it on acne-prone skin?", a: "Yes. Bakuchiol and rosehip are actually beneficial for acne-prone skin, reducing inflammation and scarring." },
-      { q: "What does it smell like?", a: "It has a subtle, natural botanical scent — no added fragrance. Most users find it calming and pleasant." },
+      { q: "What does it smell like?", a: "It has a subtle, natural botanical scent with no added fragrance. Most users find it calming and pleasant." },
     ],
   },
 ];

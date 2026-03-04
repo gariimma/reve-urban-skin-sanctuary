@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { products } from "@/data/products";
+import SkinQuiz from "@/components/SkinQuiz";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -33,9 +34,13 @@ const ProductShowcase = () => {
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-light mb-4">
             The 3-Step Ritual
           </h2>
-          <p className="font-sans text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
+          <p className="font-sans text-sm md:text-base text-muted-foreground max-w-xl mx-auto mb-6">
             Scientifically sequenced to work together. Starting from ${Math.min(...products.map(p => p.price))}.
           </p>
+
+          {/* Quiz CTA */}
+          <p className="font-sans text-xs text-muted-foreground mb-3">Not sure where to start?</p>
+          <SkinQuiz />
         </motion.div>
 
         <motion.div

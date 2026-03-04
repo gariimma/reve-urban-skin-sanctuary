@@ -141,7 +141,7 @@ const SkinQuiz = () => {
                     {recommended.name}
                   </h3>
                   <p className="font-sans text-sm text-muted-foreground mb-6 leading-relaxed">
-                    {recommended.tagline} — designed for your specific needs.
+                    {recommended.tagline}, designed for your specific needs.
                   </p>
                   <div className="aspect-[4/3] overflow-hidden rounded-sm bg-muted mb-6">
                     <img
@@ -155,7 +155,7 @@ const SkinQuiz = () => {
                     onClick={() => setOpen(false)}
                     className="inline-block bg-foreground text-background px-8 py-3.5 text-[11px] tracking-[0.2em] uppercase font-sans font-medium hover:bg-foreground/90 transition-colors"
                   >
-                    View Product — ${recommended.price}
+                    View Product · ${recommended.price}
                   </Link>
                   <button
                     onClick={reset}

@@ -1,79 +1,151 @@
-import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { motion } from "framer-motion";
+import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 const testimonials = [
   {
     quote: "After two weeks, the dullness I'd been living with for years just vanished. My skin looks like it's actually breathing again.",
     name: "Clara M.",
+    initials: "CM",
     location: "London",
     rating: 5,
     product: "Pollution Defense Serum",
+    concern: "Dullness & fatigue",
   },
   {
     quote: "I work 12-hour days in front of screens. RÊVE is the first brand that made me feel like my skincare actually understands my life.",
     name: "Yuki T.",
+    initials: "YT",
     location: "Tokyo",
     rating: 5,
     product: "Blue Light Repair Cream",
+    concern: "Screen-stressed skin",
   },
   {
     quote: "The serum texture is unlike anything I've tried. Lightweight but you can feel it working. My dermatologist noticed the difference.",
     name: "Priya K.",
+    initials: "PK",
     location: "Mumbai",
-    rating: 4,
+    rating: 5,
     product: "Barrier Recovery Oil",
+    concern: "Sensitive & dehydrated",
   },
   {
     quote: "I was skeptical about another skincare brand, but the clinical results speak for themselves. My barrier has never felt this strong.",
     name: "Sophie L.",
+    initials: "SL",
     location: "Paris",
     rating: 5,
     product: "Pollution Defense Serum",
+    concern: "Pollution damage",
   },
   {
     quote: "Living in NYC, my skin takes a beating. This routine gave me back the glow I thought was gone for good.",
     name: "Marcus R.",
+    initials: "MR",
     location: "New York",
     rating: 5,
     product: "Blue Light Repair Cream",
+    concern: "Urban stress & dryness",
   },
 ];
 
+const TestimonialCard = ({ t }: { t: typeof testimonials[0] }) => (
+  <div className="relative bg-card border border-border rounded-sm p-6 md:p-8 flex flex-col h-full min-w-[280px] snap-center">
+    {/* Decorative quote mark */}
+    <svg
+      width="48"
+      height="36"
+      viewBox="0 0 48 36"
+      className="absolute top-4 right-4 text-border opacity-40"
+      aria-hidden
+    >
+      <path
+        d="M0 36V21.6C0 9.6 7.2 2.4 21.6 0L24 4.8C16.8 7.2 13.2 10.8 13.2 15.6H21.6V36H0ZM26.4 36V21.6C26.4 9.6 33.6 2.4 48 0L50.4 4.8C43.2 7.2 39.6 10.8 39.6 15.6H48V36H26.4Z"
+        fill="currentColor"
+      />
+    </svg>
+
+    {/* Stars */}
+    <div className="flex gap-0.5 mb-4">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star
+          key={i}
+          className={`w-3.5 h-3.5 ${
+            i < t.rating ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"
+          }`}
+        />
+      ))}
+    </div>
+
+    {/* Quote */}
+    <p className="font-serif text-sm md:text-base text-foreground leading-relaxed italic mb-6 flex-1">
+      "{t.quote}"
+    </p>
+
+    {/* Author */}
+    <div className="flex items-center gap-3">
+      {/* Avatar */}
+      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/30 to-accent/30 flex items-center justify-center flex-shrink-0">
+        <span className="font-sans text-xs font-medium text-foreground">{t.initials}</span>
+      </div>
+      <div>
+        <p className="font-sans text-sm font-medium text-foreground">{t.name}</p>
+        <p className="font-sans text-[10px] text-muted-foreground">{t.location} · {t.product}</p>
+        <span className="inline-block mt-1 px-2 py-0.5 bg-primary/10 text-primary text-[9px] tracking-[0.1em] uppercase font-sans rounded-full">
+          {t.concern}
+        </span>
+      </div>
+    </div>
+  </div>
+);
+
 const Testimonials = () => {
   const { ref, isVisible } = useScrollReveal();
-  const [active, setActive] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
-  const next = useCallback(() => {
-    setDirection(1);
-    setActive((prev) => (prev + 1) % testimonials.length);
-  }, []);
-
-  const prev = useCallback(() => {
-    setDirection(-1);
-    setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  const checkScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(next, 5000);
-    return () => clearInterval(interval);
-  }, [next]);
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", checkScroll, { passive: true });
+    checkScroll();
+    return () => el.removeEventListener("scroll", checkScroll);
+  }, [checkScroll]);
 
-  const variants = {
-    enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0, scale: 0.9 }),
-    center: { x: 0, opacity: 1, scale: 1 },
-    exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0, scale: 0.9 }),
+  const scroll = (dir: number) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * 320, behavior: "smooth" });
   };
 
-  const sideIndex = (offset: number) =>
-    (active + offset + testimonials.length) % testimonials.length;
+  // Auto-advance on mobile
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const interval = setInterval(() => {
+      if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 4) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        el.scrollBy({ left: 320, behavior: "smooth" });
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <section ref={ref} className="py-20 md:py-32 bg-card overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className={`text-center mb-12 md:mb-16 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+    <section ref={ref} className="py-20 md:py-32 bg-background overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+        <div className={`text-center mb-10 md:mb-14 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <p className="text-xs tracking-[0.3em] uppercase font-sans text-muted-foreground mb-4">
             Voices
           </p>
@@ -82,116 +154,41 @@ const Testimonials = () => {
           </h2>
         </div>
 
-        <div className={`relative flex items-center justify-center min-h-[320px] md:min-h-[360px] transition-all duration-1000 ${isVisible ? "opacity-100" : "opacity-0"}`}>
-          {/* Side cards (desktop only) */}
-          <div className="hidden lg:block absolute left-0 w-64 xl:w-72">
-            <div className="bg-background/60 backdrop-blur-sm border border-border rounded-lg p-6 opacity-40 scale-90">
-              <p className="font-serif text-sm text-foreground leading-relaxed italic line-clamp-4">
-                "{testimonials[sideIndex(-1)].quote}"
-              </p>
-              <p className="font-sans text-xs text-muted-foreground mt-4">
-                {testimonials[sideIndex(-1)].name} · {testimonials[sideIndex(-1)].location}
-              </p>
-            </div>
-          </div>
+        {/* Desktop: 3-column grid */}
+        <div className={`hidden lg:grid lg:grid-cols-3 gap-6 transition-all duration-1000 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+          {testimonials.slice(0, 3).map((t) => (
+            <TestimonialCard key={t.name} t={t} />
+          ))}
+        </div>
 
-          <div className="hidden lg:block absolute right-0 w-64 xl:w-72">
-            <div className="bg-background/60 backdrop-blur-sm border border-border rounded-lg p-6 opacity-40 scale-90">
-              <p className="font-serif text-sm text-foreground leading-relaxed italic line-clamp-4">
-                "{testimonials[sideIndex(1)].quote}"
-              </p>
-              <p className="font-sans text-xs text-muted-foreground mt-4">
-                {testimonials[sideIndex(1)].name} · {testimonials[sideIndex(1)].location}
-              </p>
-            </div>
+        {/* Mobile/Tablet: horizontal swipeable carousel */}
+        <div className={`lg:hidden relative transition-all duration-1000 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+          <div
+            ref={scrollRef}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 -mx-4 px-4"
+          >
+            {testimonials.map((t) => (
+              <div key={t.name} className="w-[80vw] max-w-[340px] flex-shrink-0 snap-center">
+                <TestimonialCard t={t} />
+              </div>
+            ))}
           </div>
 
           {/* Navigation arrows */}
           <button
-            onClick={prev}
-            className="absolute left-0 lg:left-[280px] xl:left-[300px] z-20 w-10 h-10 md:w-12 md:h-12 rounded-full border border-border bg-background/80 backdrop-blur-sm flex items-center justify-center hover:bg-card transition-colors"
+            onClick={() => scroll(-1)}
+            className={`absolute left-0 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-border bg-background/90 backdrop-blur-sm flex items-center justify-center transition-opacity ${canScrollLeft ? "opacity-100" : "opacity-0 pointer-events-none"}`}
             aria-label="Previous testimonial"
           >
-            <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-foreground" />
+            <ChevronLeft className="w-4 h-4 text-foreground" />
           </button>
-
           <button
-            onClick={next}
-            className="absolute right-0 lg:right-[280px] xl:right-[300px] z-20 w-10 h-10 md:w-12 md:h-12 rounded-full border border-border bg-background/80 backdrop-blur-sm flex items-center justify-center hover:bg-card transition-colors"
+            onClick={() => scroll(1)}
+            className={`absolute right-0 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full border border-border bg-background/90 backdrop-blur-sm flex items-center justify-center transition-opacity ${canScrollRight ? "opacity-100" : "opacity-0 pointer-events-none"}`}
             aria-label="Next testimonial"
           >
-            <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-foreground" />
+            <ChevronRight className="w-4 h-4 text-foreground" />
           </button>
-
-          {/* Center card */}
-          <div className="w-full max-w-md lg:max-w-lg mx-12 md:mx-16 lg:mx-0">
-            <AnimatePresence custom={direction} mode="wait">
-              <motion.div
-                key={active}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-                className="bg-background border border-border rounded-lg p-8 md:p-10 shadow-lg text-center"
-              >
-                {/* Stars */}
-                <div className="flex justify-center gap-1 mb-6">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-4 h-4 ${
-                        i < testimonials[active].rating
-                          ? "fill-accent text-accent"
-                          : "fill-muted text-muted"
-                      }`}
-                    />
-                  ))}
-                </div>
-
-                <p className="font-serif text-lg md:text-xl text-foreground leading-relaxed italic mb-8">
-                  "{testimonials[active].quote}"
-                </p>
-
-                <div>
-                  <p className="font-sans text-sm font-medium text-foreground">
-                    {testimonials[active].name}
-                  </p>
-                  <p className="font-sans text-xs text-muted-foreground mt-1">
-                    {testimonials[active].location} · {testimonials[active].product}
-                  </p>
-                </div>
-
-                {/* Decorative quote mark */}
-                <div className="flex justify-center mt-6">
-                  <svg width="32" height="24" viewBox="0 0 32 24" className="text-accent">
-                    <path
-                      d="M0 24V14.4C0 6.4 4.8 1.6 14.4 0L16 3.2C11.2 4.8 8.8 7.2 8.8 10.4H14.4V24H0ZM17.6 24V14.4C17.6 6.4 22.4 1.6 32 0L33.6 3.2C28.8 4.8 26.4 7.2 26.4 10.4H32V24H17.6Z"
-                      fill="currentColor"
-                      opacity="0.4"
-                    />
-                  </svg>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* Dots */}
-        <div className="flex justify-center gap-2 mt-8">
-          {testimonials.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                setDirection(i > active ? 1 : -1);
-                setActive(i);
-              }}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                i === active ? "w-6 bg-accent" : "w-2 bg-border hover:bg-muted-foreground/40"
-              }`}
-            />
-          ))}
         </div>
       </div>
     </section>

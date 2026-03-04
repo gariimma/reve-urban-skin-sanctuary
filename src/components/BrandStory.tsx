@@ -23,7 +23,7 @@ const BrandStory = () => {
               />
             </div>
 
-            {/* Floating stat — frosted glass */}
+            {/* Floating stat */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -53,7 +53,6 @@ const BrandStory = () => {
               <em>Formulated</em> for every city.
             </h2>
 
-            {/* Single tight paragraph instead of three */}
             <p className="font-sans text-sm text-muted-foreground leading-relaxed max-w-lg">
               We spent a decade studying how pollution ages skin across
               megacities. RÊVE merges Korean skincare innovation with French
@@ -62,5 +61,34 @@ const BrandStory = () => {
               for your skin should never cost the planet.
             </p>
 
-            {/* Stats — larger, with divider */}
-            <div className="mt
+            {/* Stats */}
+            <div className="mt-8 grid grid-cols-3 gap-6">
+              {[
+                { val: "94%", label: "Barrier improvement" },
+                { val: "10+", label: "Years of research" },
+                { val: "100%", label: "Vegan & clean" },
+              ].map((s, i) => (
+                <motion.div
+                  key={s.val}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 + i * 0.1, duration: 0.5 }}
+                >
+                  <p className="font-serif text-2xl md:text-3xl text-foreground">
+                    {s.val}
+                  </p>
+                  <p className="text-[10px] md:text-xs font-sans text-muted-foreground mt-1">
+                    {s.label}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default BrandStory;

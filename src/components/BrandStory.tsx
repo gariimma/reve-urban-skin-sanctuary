@@ -22,13 +22,14 @@ const BrandStory = () => {
                 loading="lazy"
               />
             </div>
-            {/* Floating stat */}
+
+            {/* Floating stat — frosted glass */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.5, duration: 0.6 }}
-              className="absolute -bottom-6 -right-2 md:-right-8 bg-primary text-primary-foreground p-6 md:p-8 shadow-xl rounded-sm max-w-[200px]"
+              className="absolute -bottom-6 -right-2 md:-right-8 bg-white/10 backdrop-blur-md border border-white/20 text-white p-6 md:p-8 shadow-xl rounded-sm max-w-[200px]"
             >
               <p className="font-serif text-3xl md:text-4xl">2021</p>
               <p className="text-[11px] font-sans mt-1 opacity-80">
@@ -52,51 +53,14 @@ const BrandStory = () => {
               <em>Formulated</em> for every city.
             </h2>
 
-            <div className="space-y-5 font-sans text-sm text-muted-foreground leading-relaxed">
-              <p>
-                We spent a decade studying how pollution accelerates skin aging
-                across megacities worldwide. No brand was solving the real problem.
-              </p>
-              <p>
-                RÊVE (French for <em>"dream"</em>) embodies our vision: skin
-                so resilient that thriving in any city feels effortless. Korean
-                skincare innovation meets French cosmetic elegance in every
-                formula.
-              </p>
-              <p>
-                Every product is clinically tested, cruelty-free, and housed in
-                refillable vessels designed to minimise waste. Because caring for
-                your skin should never cost the planet.
-              </p>
-            </div>
+            {/* Single tight paragraph instead of three */}
+            <p className="font-sans text-sm text-muted-foreground leading-relaxed max-w-lg">
+              We spent a decade studying how pollution ages skin across
+              megacities. RÊVE merges Korean skincare innovation with French
+              cosmetic elegance to create formulas that are clinically tested,
+              cruelty-free, and housed in refillable vessels. Because caring
+              for your skin should never cost the planet.
+            </p>
 
-            <div className="mt-8 grid grid-cols-3 gap-6">
-              {[
-                { val: "94%", label: "Barrier improvement" },
-                { val: "10+", label: "Years of research" },
-                { val: "100%", label: "Vegan & clean" },
-              ].map((s, i) => (
-                <motion.div
-                  key={s.val}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3 + i * 0.1, duration: 0.5 }}
-                >
-                  <p className="font-serif text-2xl md:text-3xl text-foreground">
-                    {s.val}
-                  </p>
-                  <p className="text-[10px] md:text-xs font-sans text-muted-foreground mt-1">
-                    {s.label}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default BrandStory;
+            {/* Stats — larger, with divider */}
+            <div className="mt
